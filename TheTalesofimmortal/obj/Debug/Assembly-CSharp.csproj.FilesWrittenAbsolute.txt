@@ -1,0 +1,17 @@
+/Users/oas/HearthStone/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/oas/HearthStone/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/oas/HearthStone/obj/Debug/Assembly-CSharp.dll
+/Users/oas/HearthStone/obj/Debug/Assembly-CSharp.dll.mdb
+/Users/oas/HearthStone/Temp/bin/Debug/UnityEngine.dll
+/Users/oas/HearthStone/Temp/bin/Debug/UnityEditor.dll
+/Users/oas/HearthStone/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/oas/HearthStone/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/oas/HearthStone/Temp/bin/Debug/Mono.Cecil.dll
+/Users/oas/HearthStone/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/oas/HearthStone/Temp/bin/Debug/Unity.DataContract.dll
+/Users/oas/HearthStone/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/oas/HearthStone/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/oas/HearthStone/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/oas/HearthStone/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/oas/HearthStone/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Users/oas/HearthStone/Temp/bin/Debug/Mono.Cecil.Mdb.dll
