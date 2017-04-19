@@ -9,6 +9,8 @@ public class Welcome : MonoBehaviour {
     public Image welcomeLogo;
     public Text welcomeText;
     public AudioSource soundLogo;
+    public Loading _loading;
+
     private bool isDrawMovie = true;
     private bool isShowMessage = false;
     private bool isShowLogo = false;
@@ -105,5 +107,16 @@ public class Welcome : MonoBehaviour {
     IEnumerator WaitAndFade(){
         yield return new WaitForSeconds(2f);
         welcomeText.DOFade(1, 1.5f);
+    }
+
+    public void OnStartGame(){
+        float t = (float)Random.Range(2, 5);
+        _loading.StartLoading(t);
+        StartCoroutine(WaitAndLoadLevel(t));
+    }
+
+    IEnumerator WaitAndLoadLevel(float t){
+        yield return new WaitForSeconds(t);
+        Debug.Log("Load New Level!!");
     }
 }
