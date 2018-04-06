@@ -24,9 +24,9 @@ public class LoadConfigs : MonoBehaviour {
             c.Id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
             c.Name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
             c.Description = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
-            c.ActionCost = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
+//            c.ActionCost = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
             c.Price = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
-            c.ManaCost = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
+//            c.ManaCost = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
             c.Level = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
             c.MaxLevel = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 7));
             c.Tier = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 8));

@@ -44,9 +44,9 @@ public class GameData : MonoBehaviour {
     }
 
     public static void CastCost(Card c){
-        GameData.thisHero.Mp -= c.ManaCost;
+//        GameData.thisHero.Mp -= c.ManaCost;
         //存储数据
-        GameData.thisHero.Action -= c.ActionCost;
+//        GameData.thisHero.Action -= c.ActionCost;
         //存储数据
     }
 
@@ -59,16 +59,16 @@ public class GameData : MonoBehaviour {
     }
 
     public static bool CanCast(Card c){
-        if (c.ManaCost > GameData.thisHero.Mp)
-        {
-            Debug.Log("Mp Insufficient");
-            return false;
-        }
-        if (c.ActionCost > GameData.thisHero.Action)
-        {
-            Debug.Log("Action Insufficient");
-            return false;
-        }
+//        if (c.ManaCost > GameData.thisHero.Mp)
+//        {
+//            Debug.Log("Mp Insufficient");
+//            return false;
+//        }
+//        if (c.ActionCost > GameData.thisHero.Action)
+//        {
+//            Debug.Log("Action Insufficient");
+//            return false;
+//        }
         return true;
     }
 

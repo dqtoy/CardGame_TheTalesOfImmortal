@@ -33,8 +33,7 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
         _cardsHandler = this.gameObject.GetComponentInParent<CardsHandler>();
         thisCard = new Card();
         thisCard.Id = 1;
-        thisCard.ManaCost = 1;
-        thisCard.ActionCost = 1;
+
         frameImage.gameObject.SetActive(false);
     }
 
