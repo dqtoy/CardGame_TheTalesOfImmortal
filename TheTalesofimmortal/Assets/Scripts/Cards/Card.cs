@@ -14,6 +14,19 @@ public class Card {
 	public CardEffectType Effect;
 	public string EffectParam;//目标，效果参数，持续回合/叠加层数
  
+	public Card(){
+		Id = 0;
+		Name = "";
+		Description = "";
+		Price = 0;
+		Level = 1;
+		MaxLevel = 1;
+		DecayTo = 0;
+		Tier = 0;
+		Effect = CardEffectType.None;
+		EffectParam = "";
+	}
+
 	public virtual void Play(Player me,Player enemy){
 		
 	}
@@ -21,11 +34,12 @@ public class Card {
 }
 
 public class PhysicalAtkCard:Card{
-
+	protected AttackType AtkType = AttackType.Physical;
 }
 
 public class MagicalAtkCard:Card{
 	private int mana;
+	protected AttackType AtkType = AttackType.Magical;
 	public int ManaCost{
 		get{ return mana;}
 		set{ mana = value;}
@@ -56,7 +70,7 @@ public class CardBuff{
 //每个BuffType有对应的描述和图片
 public enum CardBuffType{
 	None,
-	HpShield,//生命盾v
+	Shield,//生命盾v
 	Armor,//护甲v
 	PhysicalReduction,//物理减免%
 	MagicalReduction,//魔法减免%
@@ -65,6 +79,8 @@ public enum CardBuffType{
 	Sunder,//破甲v
 	Weak,//虚弱v
 	Deceleration,//减速减少每回合抽卡数v
+	Thorns,//荆棘反伤
+	Dodge,//闪避
 }
 
 public enum CardTargetType{
@@ -112,3 +128,8 @@ public enum CardPlayCondition{
 	HpNoMoreThanTwelve,
 }
 
+public enum AttackType{
+	Physical,
+	Magical,
+	Mana,
+}
