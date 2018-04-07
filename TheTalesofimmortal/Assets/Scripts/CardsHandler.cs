@@ -22,15 +22,15 @@ public class CardsHandler : MonoBehaviour {
     private ArrayList CardPool ;
 
 
-    private List<Card> leftCards_Hero;//余牌
-    private List<Card> handCards_Hero;//手牌
-    private List<Card> playedCards_Hero;//出场的牌
-    private List<Card> waitingCards_Hero;//等待牌
+    private List<CardData> leftCards_Hero;//余牌
+    private List<CardData> handCards_Hero;//手牌
+    private List<CardData> playedCards_Hero;//出场的牌
+    private List<CardData> waitingCards_Hero;//等待牌
 
-    private List<Card> leftCards_Enemy;//余牌
-    private List<Card> handCards_Enemy;//手牌
-    private List<Card> playedCards_Enemy;//出场的牌
-    private List<Card> waitingCards_Enemy;//等待牌
+    private List<CardData> leftCards_Enemy;//余牌
+    private List<CardData> handCards_Enemy;//手牌
+    private List<CardData> playedCards_Enemy;//出场的牌
+    private List<CardData> waitingCards_Enemy;//等待牌
 
 
     /// <summary>
@@ -41,14 +41,14 @@ public class CardsHandler : MonoBehaviour {
         CardPool = new ArrayList();
 
         leftCards_Hero = GameData.thisHero.Cards;
-        handCards_Hero = new List<Card>();
-        playedCards_Hero = new List<Card>();
-        waitingCards_Hero = new List<Card>();
+        handCards_Hero = new List<CardData>();
+        playedCards_Hero = new List<CardData>();
+        waitingCards_Hero = new List<CardData>();
 
         leftCards_Enemy = e.Deck;
-        handCards_Enemy = new List<Card>();
-        playedCards_Enemy = new List<Card>();
-        waitingCards_Enemy = new List<Card>();
+        handCards_Enemy = new List<CardData>();
+        playedCards_Enemy = new List<CardData>();
+        waitingCards_Enemy = new List<CardData>();
 
         UpdateShow_Deck();
     }
@@ -145,7 +145,7 @@ public class CardsHandler : MonoBehaviour {
     /// <param name="c">C.</param>
     public void PlayCard(GameObject o){
     //1.移除手牌并添加到场牌
-        Card c = LoadConfigs.CardDictionary[int.Parse(o.name)];
+        CardData c = LoadConfigs.CardDictionary[int.Parse(o.name)];
         handCards_Hero.Remove(c);
         playedCards_Hero.Add(c);
 

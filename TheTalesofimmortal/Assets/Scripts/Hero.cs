@@ -9,7 +9,7 @@ public class Hero {
     public int Action;
     public int ActionMax;
 
-    public List<Skill> Skills;
+    public List<CardData> Skills;
     public List<DungeonAbility> DugeonAbilities;
 
     public int Profession;
@@ -17,7 +17,7 @@ public class Hero {
     public int Gold;
     public int HandSize;
     public int[] DungeonState;
-    public List<Card> Cards;
+    public List<CardData> Cards;
     public int[] EquipPositions;
 
 }

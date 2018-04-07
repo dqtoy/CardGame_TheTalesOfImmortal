@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 public class LoadConfigs : MonoBehaviour {
 
-    public static Dictionary<int,Card> CardDictionary;
+    public static Dictionary<int,CardData> CardDictionary;
     public static Dictionary<int,Monster> MonsterDictionary;
 
 	void Awake () {
-        CardDictionary = new Dictionary<int, Card>();
+        CardDictionary = new Dictionary<int, CardData>();
         LoadCards();
 
         MonsterDictionary = new Dictionary<int, Monster>();
@@ -20,7 +20,7 @@ public class LoadConfigs : MonoBehaviour {
         string[][] strs = ReadTxt.ReadText("cards");
         for (int i = 0; i < strs.Length-1; i++)
         {
-            Card c = new Card();
+            CardData c = new CardData();
             c.Id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
             c.Name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
             c.Description = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);

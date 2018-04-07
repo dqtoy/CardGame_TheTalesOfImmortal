@@ -7,22 +7,24 @@ public class Player{
 	public int InitMana;
 	private int PhysicalReduction = 0;
 	private int MagicalReduction = 0;
+	private PlayerView _view;
 
 	public Dictionary<CardBuffType,int> PlayerBuff;//id,层数
-	public List<Card> CardPool;
-	public List<Card> Hands;
-	public List<Card> UsedCards;
-	public List<Card> CardsInPreparation;//待发动区的卡
+	public List<CardData> CardPool;
+	public List<CardData> Hands;
+	public List<CardData> UsedCards;
+	public List<CardData> CardsInPreparation;//待发动区的卡
 
-	public Player(int hp,int hpMax,int initMana,List<Card> cardPool){
+	public Player(int hp,int hpMax,int initMana,List<CardData> cardPool,PlayerView view){
 		Hp = hp;
 		HpMax = hpMax;
 		InitMana = initMana;
 		PlayerBuff = new Dictionary<CardBuffType,int> ();
 		CardPool = cardPool;
-		Hands = new List<Card> ();
-		UsedCards = new List<Card> ();
-		CardsInPreparation = new List<Card> ();
+		Hands = new List<CardData> ();
+		UsedCards = new List<CardData> ();
+		CardsInPreparation = new List<CardData> ();
+		view = _view;
 	}
 
 	public void Attack(int orgDamage, AttackType atkType){
@@ -44,12 +46,12 @@ public class Player{
 		//根据atkType造成反制效果
 	}
 
-	public int DamageAfterReduction(int dam,AttackType type){
+	int DamageAfterReduction(int dam,AttackType type){
 		int rdc = (type == AttackType.Physical ? PhysicalReduction : MagicalReduction);
 		return dam - PhysicalReduction * dam / 100;
 	}
 
-	public int DamageAfterShield(int dam){
+	int DamageAfterShield(int dam){
 		if (PlayerBuff.ContainsKey (CardBuffType.Shield)) {
 			if (dam <= 0) {
 				dam = 0;

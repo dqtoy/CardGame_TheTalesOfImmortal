@@ -18,7 +18,7 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
     public Image frameImage;
 
     private Transform lastContainer;
-    private Card thisCard;
+    private CardData thisCard;
     private CardsHandler _cardsHandler;
 
     void Awake(){
@@ -30,10 +30,6 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
         
 
     void Start(){
-        _cardsHandler = this.gameObject.GetComponentInParent<CardsHandler>();
-        thisCard = new Card();
-        thisCard.Id = 1;
-
         frameImage.gameObject.SetActive(false);
     }
 
@@ -50,7 +46,7 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
         lastContainer = transform.parent;
 
         //卡牌被点按的特效
-        transform.localScale=new Vector3(0.9f,0.9f,0.9f); 
+//        transform.localScale=new Vector3(0.9f,0.9f,0.9f); 
         frameImage.gameObject.SetActive(true);
 
         //将卡牌放入临时的最高层级的容器中，防止被遮挡
@@ -60,7 +56,6 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
     public void OnPointerUp(PointerEventData eventData) 
     { 
         //释放卡牌，取消点按的特效
-        transform.localScale=new Vector3(1f,1f,1f); 
         frameImage.gameObject.SetActive(false);
 
         RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up);
@@ -99,20 +94,4 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
         }
 
     }
-
-//    void Update(){
-//        if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
-//        {
-//            if (lastTag == this.gameObject.transform.parent.tag)
-//            {
-////                Debug.Log("Left Click");
-//            }
-//            else
-//            {
-//                lastTag = this.gameObject.transform.parent.tag;
-////                frameImage.gameObject.SetActive(false);
-//            }
-//        }
-//            
-//    }
 }

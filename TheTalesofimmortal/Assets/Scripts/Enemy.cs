@@ -12,7 +12,7 @@ public class Enemy {
     public int MaxHp;
     public int Hp;
     public int Level;
-    public List<Card> Deck;
+    public List<CardData> Deck;
     public Sprite HeadImage;
 }
 

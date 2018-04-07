@@ -22,10 +22,10 @@ public class GameData : MonoBehaviour {
         thisHero.Action = 3;
         thisHero.ActionMax = 3;
 
-        thisHero.Skills = new List<Skill>();
+        thisHero.Skills = new List<CardData>();
         thisHero.DugeonAbilities = new List<DungeonAbility>();
 
-        thisHero.Cards = new List<Card>();
+        thisHero.Cards = new List<CardData>();
         thisHero.DungeonState = new int[0];
         thisHero.EquipPositions = new int[0];
 
@@ -43,22 +43,22 @@ public class GameData : MonoBehaviour {
         }
     }
 
-    public static void CastCost(Card c){
+    public static void CastCost(CardData c){
 //        GameData.thisHero.Mp -= c.ManaCost;
         //存储数据
 //        GameData.thisHero.Action -= c.ActionCost;
         //存储数据
     }
 
-    public static void CastCost(Skill s){
-        
-    }
+//    public static void CastCost(CardData s){
+//        
+//    }
 
     public static void CastCost(DungeonAbility da){
     
     }
 
-    public static bool CanCast(Card c){
+    public static bool CanCast(CardData c){
 //        if (c.ManaCost > GameData.thisHero.Mp)
 //        {
 //            Debug.Log("Mp Insufficient");

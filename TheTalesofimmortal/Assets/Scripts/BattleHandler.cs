@@ -77,11 +77,11 @@ public class BattleHandler : MonoBehaviour {
         thisEnemy.MaxHp = (int)(m.Hp * thisEnemy.Level) + 10;
         thisEnemy.Hp = thisEnemy.MaxHp;
         thisEnemy.HeadImage = Resources.Load(m.Image, typeof(Sprite)) as Sprite;
-        thisEnemy.Deck = new List<Card>();
+        thisEnemy.Deck = new List<CardData>();
         for (int i = 0; i < thisEnemy.Level * 5; i++)
         {
             int r = Random.Range(1, LoadConfigs.CardDictionary.Count);
-            Card c = LoadConfigs.CardDictionary[r];
+            CardData c = LoadConfigs.CardDictionary[r];
             thisEnemy.Deck.Add(c);
         }
     }
