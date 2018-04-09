@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Card : MonoBehaviour {
-	private CardData model;
+	private CardData data;
 
-	public void Init(CardData m){
-		model = m;
+	public void Init(CardData data){
+		this.data = data;
 	}
 }
