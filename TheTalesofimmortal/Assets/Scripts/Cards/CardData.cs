@@ -25,48 +25,65 @@ public enum CardType{
 
 public enum CardPlayCondition{
 	None,
-	HpNoMoreThanFive,
-	HpNoMoreThanTwelve,
+	EnemyHpNoMoreThanFive,
+	EnemyHpNoMoreThanTwelve,
 }
 
 public class CardEffect{
 	public int Id;
-	public CardSkillTarget Target;
 	public CardEffectType Type;
 	public string Param;
 }
 
-public enum CardSkillTarget{
-	None,
-	Me,
-	MyPuppet,
-	AllMyPuppets,
-	Enemy,
-	EnemyPuppet,
-	AllEnemyPuppets,
-	All,
-}
+//public enum EffectTarget{
+//	None,
+//	Me,
+//	MyPuppet,
+//	AllMyPuppets,
+//    AllMySide,
+//	Enemy,
+//	EnemyPuppet,
+//	AllEnemyPuppets,
+//    AllEnemySide,
+//	All,
+//}
 
 public enum CardEffectType{
 	None,
+    //治疗类
 	Heal,
+    //伤害类
 	PhysicalDamage,
 	MagicalDamage,
-	AddMana,
+    //内力类
+	AddMana=10,
 	ReduceMana,
+    AbsorbMana,
 	ClearMana,
-	AddBuff,
-	Summon,
-	DrawCard,
-	TakeCard,
-	DoublePoison,
-	InstantKill,
+    //Buff类
+	AddBuff=20,
+    DoublePoison,
+    //召唤
+	Summon=30,
+    //卡牌类
+	DrawCard=40,
+	RemoveCard,
+
+	//直接灭杀
+	InstantKill=50,
 	Devour,
-	AddTriggerSkill,
+    //技能
+	AddTriggerSkill=60,
+    //针对召唤物
+    KillEnemyPuppet=500,//参数 1，2，3 0所有
+    KillMyPuppet,//参数 1，2，3 0所有
+    DamageMyPuppets,//参数 数量|值
+    DamageEnemyPuppets,//参数 数量|值
+    AddAtkToMyPuppets,//参数 数量|值
+    ReduceAtkToEnemyPuppets,//参数 数量|值
 }
 
 public class CardBuff{
-	public int Id;
 	public CardBuffType Type;
 	public string Name;
 	public string Description;
@@ -78,10 +95,12 @@ public class CardBuff{
 	
 public enum CardBuffType{
 	None,
-	Shield,//生命盾v
-	Armor,//护甲v
-	PhysicalReduction,//物理减免%
-	MagicalReduction,//魔法减免%
+	Shield,//生命盾v,叠加层数
+	Armor1,//护甲v,
+    Armor2,
+    Armor3,
+	PhysicalReduction,//外伤减免%
+	MagicalReduction,//内伤减免%
 	HealPerRound,//每回合回血v
 	Poison,//中毒v
 	Sunder,//破甲v
@@ -89,6 +108,7 @@ public enum CardBuffType{
 	Deceleration,//减速减少每回合抽卡数v
 	Thorns,//荆棘反伤
 	Dodge,//闪避
+    DamageChangeToMana,//内力护盾
 }
 
 
