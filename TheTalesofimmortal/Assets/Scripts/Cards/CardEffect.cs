@@ -26,7 +26,7 @@ public enum CardEffectType{
     SelfAddBuff,
 	DoublePoison,
 	//召唤
-	Summon=30,
+	Summon=30,//1|2 puppetId|puppetId
 	//卡牌类
 	DrawCard=40,
 	RemoveCard,

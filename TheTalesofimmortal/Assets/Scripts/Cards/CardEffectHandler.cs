@@ -12,41 +12,78 @@ public class CardEffectHandler {
 
 	//2.对敌人外伤
 	int PhysicalDamage(Player attacker,Player defender,string param){
+		//闪避
+		if (MathCalculation.IsDodge (defender.Dodge)) {
+			return 0;
+		}
+
 		int value = int.Parse (param);
-		//物理减免
-		if (defender.PhysicalReduction > 0)
-			value -= value * defender.PhysicalReduction / 100;
+		//虚弱
+		value -= attacker.Weak;
+		//易伤
+		value+=defender.Sunder;
 		//减伤盾
-		if(defender.Armor>0)
-			value -= defender.Armor;
+		value -= defender.Armor;
+		//物理减免
+		value -= value * defender.PhysicalReduction / 100;
+
 		//生命盾
         if (value > 0 && defender.Shield>0)
 			DamageAfterShield (defender, ref value);
 
-		value = (value < 0) ? 0 : value;
+		value = Mathf.Max (0, value);
+
+		//内力盾
+		if (defender.DamageToMana) {
+			int m = value > defender.Mp ? defender.Mp : value;
+			value -= m;
+			ExcuteMana (defender, -m);
+		}
 
 		//造成伤害
 		if (value > 0)
 			ExcuteDamage (defender, value);
+
+		//物理反伤
+		if(defender.Rebound>0){
+			int damage = value * defender.Rebound / 100;
+			ExcuteReboundDamage (attacker, value);
+		}
 
 		return value;
 	}
 
 	//3. 对敌人内伤
 	int MagicalDamage(Player attacker,Player defender,string param){
+
+		//闪避
+		if (MathCalculation.IsDodge (defender.Dodge)) {
+			return 0;
+		}
+
 		int value = int.Parse (param);
 		defender.Hp -= value;
-		//物理减免
-		if (defender.MagicalReduction > 0)
-			value -= value * defender.MagicalReduction / 100;
+		//虚弱
+		value -= attacker.Weak;
+		//易伤
+		value+=defender.Sunder;
 		//减伤盾
-		if(defender.Armor>0)
-			value -= defender.Armor;
+		value -= defender.Armor;
+		//魔法减免
+		value -= value * defender.MagicalReduction / 100;
+
 		//生命盾
 		if (value > 0 && defender.Shield>0)
 			DamageAfterShield (defender, ref value);
 
-		value = (value < 0) ? 0 : value;
+		value = Mathf.Max (0, value);
+
+		//内力盾
+		if (defender.DamageToMana) {
+			int m = value > defender.Mp ? defender.Mp : value;
+			value -= m;
+			ExcuteMana (defender, -m);
+		}
 
 		//造成伤害
 		if (value > 0)
@@ -99,7 +136,7 @@ public class CardEffectHandler {
 
     //21. 给自己添加buff，如果buff增加属性，则将属性加上
     int SelfAddBuff(Player attacker,Player defender,string param){
-        ExcuteAddBuff(defender, param);
+        ExcuteAddBuff(attacker, param);
         return 0;
     }
 
@@ -111,11 +148,21 @@ public class CardEffectHandler {
 
 	//30. 召唤
 	int Summon(Player attacker,Player defender,string param){
-		int puppetId = int.Parse(param);
+		string[] s;
+		if (param.Contains ("|")) {
+			s = param.Split ('|');
+		} else {
+			s = new string[]{ param };
+		}
+		for (int i = 0; i < s.Length; i++) {
+			Puppet p = new Puppet (int.Parse (s [i]));
+			attacker.Puppets.Add (p);
+		}
 		return 1;
 	}
 
 	//40. 抽卡
+	//To Do
 	int DrawCard(Player attacker,Player defender,string param){
 		int count = int.Parse(param);
 
@@ -123,6 +170,7 @@ public class CardEffectHandler {
 	}
 
 	//41. 移除卡
+	//To Do
 	int RemoveCard(Player attacker,Player defender,string param){
 		int count = int.Parse(param);
 
@@ -180,7 +228,10 @@ public class CardEffectHandler {
 		string[] s = param.Split ('|');
 		int count = int.Parse (s [0]);
 		int damage = int.Parse (s [1]);
-
+		for (int i = 0; i < defender.Puppets.Count; i++) {
+//			ExcuteDamageToPuppet(
+			//这个地方有待优化，传过去puppet，在这里判断是不是死了。
+		}
 
 
 		return 0;
@@ -237,58 +288,158 @@ public class CardEffectHandler {
 		target.Hp -= value;
 	}
 
+	void ExcuteReboundDamage(Player target,int value){
+		//易伤
+		value+=target.Sunder;
+		//减伤盾
+		value -= target.Armor;
+
+		//生命盾
+		if (value > 0 && target.Shield>0)
+			DamageAfterShield (target, ref value);
+
+		value = Mathf.Max (0, value);
+
+		if (target.DamageToMana) {
+			int m = Mathf.Min (value, target.Mp);
+			value -= m;
+			ExcuteMana (target, -m);
+		}
+
+		if (value > 0)
+			ExcuteDamage (target, value);
+	}
+
 	void ExcuteMana(Player target, int value){
 		target.Mp += value;
 	}
 
     void ExcuteAddBuff(Player target,string param){
         CardBuffType buff;
-        int count = 0;
+		int layer = 0;
+		int duration = 0;
         if (param.Contains("|"))
         {
             string[] s = param.Split('|');
             buff = (CardBuffType)(int.Parse(s[0]));
-            count = int.Parse(s[1]);
+            layer = int.Parse(s[1]);
+			if (s.Length > 2)
+				duration = int.Parse (s [2]);
         }
         else
         {
             buff = (CardBuffType)(int.Parse(param));
         }
 
-        if (target.PlayerBuff.ContainsKey(buff))
-        {
-            target.PlayerBuff[buff] += count;
-        }
-        else
-        {
-            target.PlayerBuff.Add(buff, count);
-        }
-
         switch (buff)
         {
-            case CardBuffType.Armor:
-                target.Armor += count;
+			case CardBuffType.None:
+				break;
+			case CardBuffType.Shield:
+				target.Shield += layer;
+				break;
+			case CardBuffType.Armor:
+				target.Armor += layer;
+				target.PlayerBuffs.Add (new CardBuff (CardBuffType.Armor, layer, duration));
                 break;
-            case CardBuffType.PhysicalReduction:
-                target.PhysicalReduction = 50 * target.PlayerBuff[CardBuffType.PhysicalReduction];
+			case CardBuffType.PhysicalReduction:
+				target.PhysicalReduction = MathCalculation.PropDecayIncrease (target.PhysicalReduction, layer);
+				target.PlayerBuffs.Add (new CardBuff (CardBuffType.PhysicalReduction, layer, duration));
                 break;
             case CardBuffType.MagicalReduction:
-                target.MagicalReduction = 50 * target.PlayerBuff[CardBuffType.MagicalReduction];
+				target.MagicalReduction = MathCalculation.PropDecayIncrease (target.MagicalReduction, layer);
+				target.PlayerBuffs.Add (new CardBuff (CardBuffType.MagicalReduction, layer, duration));
                 break;
-            case CardBuffType.Sunder:
-                target.Sunder += count;
-            case CardBuffType.Weak:
-                target.Weak += count;
+			case CardBuffType.HealPerRound:
+				target.HealPerRound += layer;
+				target.PlayerBuffs.Add (new CardBuff (CardBuffType.HealPerRound, layer, duration));
+				break;
+			case CardBuffType.Poison:
+				target.Poison += layer;
+				break;
+			case CardBuffType.Sunder:
+				target.Sunder += layer;
+				target.PlayerBuffs.Add (new CardBuff (CardBuffType.Sunder, layer, duration));
+				break;
+			case CardBuffType.Weak:
+				target.Weak += layer;
+				target.PlayerBuffs.Add (new CardBuff (CardBuffType.Weak, layer, duration));
+				break;
+			case CardBuffType.Acceleration:
+				target.Acceleration += layer;
+				target.PlayerBuffs.Add (new CardBuff (CardBuffType.Acceleration, layer, duration));
+				break;
+			case CardBuffType.Deceleration:
+				target.Deceleration += layer;
+				target.PlayerBuffs.Add (new CardBuff (CardBuffType.Deceleration, layer, duration));
+				break;
+			case CardBuffType.Rebound:
+				target.Rebound += layer;
+				target.PlayerBuffs.Add (new CardBuff (CardBuffType.Rebound, layer, duration));
+				break;
+			case CardBuffType.Dodge:
+				target.Dodge = MathCalculation.PropDecayIncrease (target.Dodge, layer);
+				target.PlayerBuffs.Add (new CardBuff (CardBuffType.Dodge, layer, duration));
+				break;
+			case CardBuffType.DamageToMana:
+				target.DamageToMana = true;
+				target.PlayerBuffs.Add (new CardBuff (CardBuffType.DamageToMana, layer, duration));
+				break;
+			default:
+				Debug.Log ("Can not find CardBuffType!");
+				break;
         }
     }
 
 
 
-	//移除buff，如果buff加属性，则要将属性也移除
-	void RemoveBuff(Player target, CardBuffType buff){
+	//某个buff被移除，如果buff加属性，则要将属性也移除
+	void BuffRemoved(Player target, CardBuff buff){
+		switch (buff.Type) {
+			case CardBuffType.Armor:
+				target.Armor -= buff.Layers;
+				break;
+			case CardBuffType.PhysicalReduction:
+				target.PhysicalReduction = MathCalculation.PropDecayDecrease (target.PhysicalReduction, buff.Layers);
+				break;
+			case CardBuffType.MagicalReduction:
+				target.MagicalReduction = MathCalculation.PropDecayDecrease (target.MagicalReduction, buff.Layers);
+				break;
+			case CardBuffType.HealPerRound:
+				target.HealPerRound -= buff.Layers;
+				break;
+			case CardBuffType.Sunder:
+				target.Sunder -= buff.Layers;
+				break;
+			case CardBuffType.Weak:
+				target.Weak -= buff.Layers;
+				break;
+			case CardBuffType.Acceleration:
+				target.Acceleration -= buff.Layers;
+				break;
+			case CardBuffType.Deceleration:
+				target.Deceleration -= buff.Layers;
+				break;
+			case CardBuffType.Rebound:
+				target.Rebound -= buff.Layers;
+				break;
+			case CardBuffType.Dodge:
+				target.Dodge = MathCalculation.PropDecayDecrease (target.Dodge, buff.Layers);
+				break;
+			case CardBuffType.DamageToMana:
+				target.DamageToMana = IsDamageToMana (target);
+				break;
+			default:
+				break;
+		}
+	}
 
-        target.PlayerBuffs.Remove(buff);
-		
+	bool IsDamageToMana(Player target){
+		foreach(CardBuff buff in target.PlayerBuffs){
+			if (buff.Type == CardBuffType.DamageToMana)
+				return true;
+		}
+		return false;
 	}
 
 }

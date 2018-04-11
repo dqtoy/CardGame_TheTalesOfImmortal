@@ -27,4 +27,19 @@ public class MathCalculation {
 		}
 		return values;
 	}
+
+	//衰减式增长，用于伤害减免叠加，闪避叠加等
+	public static int PropDecayIncrease(int org,int inc){
+//		return 100 - (100 - org) * (100 - inc) / 100;
+		return Mathf.Min (100, org + inc);
+	}
+
+	public static int PropDecayDecrease(int org,int dec){
+//		return 100 - (100 - org) * 100 / (100 - dec);
+		return Mathf.Max (0, org - dec);
+	}
+
+	public static bool IsDodge(int rate){
+		return Random.Range (0, 10000) < rate * 100;
+	}
 }

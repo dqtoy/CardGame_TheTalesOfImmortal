@@ -16,17 +16,17 @@ public class CardBuff
 
 public enum CardBuffType{
     None,//下列格式：类型|参数（int）
-    Shield,//生命盾v,叠加层数
-    Armor,//护甲v,
-    PhysicalReduction,//外伤减免50%
-    MagicalReduction,//内伤减免50%
-    HealPerRound,//每回合结束回血v
-    Poison,//中毒v
-    Sunder,//破甲v
-    Weak,//虚弱v
-    Acceleration,
-    Deceleration,//减速减少每回合抽卡数v
-    Rebound,//荆棘反伤百分比50%
-    Dodge,//闪避百分比50%
+    Shield,//生命盾 类型|层数
+    Armor,//护甲 类型|层数|持续回合
+	PhysicalReduction,//外伤减免 类型|层数|持续回合
+	MagicalReduction,//内伤减免 类型|层数|持续回合
+	HealPerRound,//每回合结束回血 类型|层数|持续回合
+	Poison,//中毒 类型|层数
+	Sunder,//易伤 类型|层数|持续回合
+	Weak,//虚弱 类型|层数|持续回合
+	Acceleration,//加速 类型|层数|持续回合
+	Deceleration,//减速 类型|层数|持续回合
+	Rebound,//荆棘,物理反伤 类型|层数|持续回合
+	Dodge,//闪避，闪避内伤和外伤 类型|层数|持续回合
     DamageToMana,//内力护盾
 }
