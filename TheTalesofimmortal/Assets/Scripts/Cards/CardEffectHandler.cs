@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CardEffectHandler {
-	//1.治疗
+	//1.对自己治疗
 	int Heal(Player attacker,Player defender, string param){
 		int value = int.Parse (param);
 		attacker.Hp += value;
 		return value;
 	}
 
-	//2.外伤
+	//2.对敌人外伤
 	int PhysicalDamage(Player attacker,Player defender,string param){
 		int value = int.Parse (param);
 		//物理减免
@@ -20,7 +20,7 @@ public class CardEffectHandler {
 		if(defender.Armor>0)
 			value -= defender.Armor;
 		//生命盾
-		if (value > 0 && defender.PlayerBuff.ContainsKey (CardBuffType.Shield))
+        if (value > 0 && defender.Shield>0)
 			DamageAfterShield (defender, ref value);
 
 		value = (value < 0) ? 0 : value;
@@ -32,7 +32,7 @@ public class CardEffectHandler {
 		return value;
 	}
 
-	//3. 内伤
+	//3. 对敌人内伤
 	int MagicalDamage(Player attacker,Player defender,string param){
 		int value = int.Parse (param);
 		defender.Hp -= value;
@@ -43,7 +43,7 @@ public class CardEffectHandler {
 		if(defender.Armor>0)
 			value -= defender.Armor;
 		//生命盾
-		if (value > 0 && defender.PlayerBuff.ContainsKey (CardBuffType.Shield))
+		if (value > 0 && defender.Shield>0)
 			DamageAfterShield (defender, ref value);
 
 		value = (value < 0) ? 0 : value;
@@ -55,21 +55,28 @@ public class CardEffectHandler {
 		return value;
 	}
 
-	//10. 增加内力
+    //4. 对自己造成真实伤害
+    int SelfDamage(Player attacker,Player defender,string param){
+        int value = int.Parse (param);
+        ExcuteDamage (attacker, value);
+        return value;
+    }
+
+	//10. 增加自己内力
 	int AddMana(Player attacker,Player defender,string param){
 		int value = int.Parse(param);
 		ExcuteMana(defender, value);
 		return value;
 	}
 
-	//11. 扣除魔法
+	//11. 扣除敌人魔法
 	int ReduceMana(Player attacker,Player defender,string param){
 		int value = int.Parse(param);
 		ExcuteMana(defender, -value);
 		return value;
 	}
 
-	//12. 吸魔法
+	//12. 吸敌人魔法
 	int AbsorbMana(Player attacker,Player defender,string param){
 		int value = int.Parse(param);
 		ExcuteMana(attacker, value);
@@ -77,28 +84,29 @@ public class CardEffectHandler {
 		return value;
 	}
 
-	//13. 清除魔法
+	//13. 清除敌人魔法
 	int ClearMana(Player attacker,Player defender,string param){
 		int value = defender.Mp;
 		ExcuteDamage(defender, -value);
 		return value;
 	}
 
-	//20. 添加buff，如果buff增加属性，则将属性加上
+	//20. 给敌人添加buff，如果buff增加属性，则将属性加上
 	int AddBuff(Player attacker,Player defender,string param){
-		CardBuffType buff = (CardBuffType)(int.Parse(param));
-		return 1;
+        ExcuteAddBuff(defender, param);
+		return 0;
 	}
 
-	//21. 加倍中毒效果
+    //21. 给自己添加buff，如果buff增加属性，则将属性加上
+    int SelfAddBuff(Player attacker,Player defender,string param){
+        ExcuteAddBuff(defender, param);
+        return 0;
+    }
+
+	//22. 加倍中毒效果
 	int DoublePoison(Player attacker,Player defender,string param){
-		int count = 0;
-		if (defender.PlayerBuff.ContainsKey(CardBuffType.Poison))
-		{
-			count = defender.PlayerBuff[CardBuffType.Poison];
-			defender.PlayerBuff[CardBuffType.Poison] *= 2;
-		}
-		return count;
+        defender.Poison *= 2;
+		return 0;
 	}
 
 	//30. 召唤
@@ -189,15 +197,24 @@ public class CardEffectHandler {
 		return 0;
 	}
 
+    //504. 给我方召唤物增加攻击
+    int AddAtkToMyPuppets(Player attacker,Player defender,string param){
+        return 0;
+    }
+
+    //505. 给我方召唤物增加攻击
+    int ReduceAtkToEnemyPuppets(Player attacker,Player defender,string param){
+        return 0;
+    }
 
 	//计算扣除护盾后的伤害
 	void DamageAfterShield(Player player, ref int damage){
-		if (damage < player.PlayerBuff [CardBuffType.Shield]) {
+		if (damage < player.Shield) {
 			damage = 0;
-			player.PlayerBuff [CardBuffType.Shield] -= damage;
+            player.Shield -= damage;
 		} else {
-			damage -= player.PlayerBuff [CardBuffType.Shield];
-			RemoveBuff (player, CardBuffType.Shield);
+			damage -= player.Shield;
+			//Remove ShieldView
 		}
 	}
 
@@ -224,22 +241,54 @@ public class CardEffectHandler {
 		target.Mp += value;
 	}
 
+    void ExcuteAddBuff(Player target,string param){
+        CardBuffType buff;
+        int count = 0;
+        if (param.Contains("|"))
+        {
+            string[] s = param.Split('|');
+            buff = (CardBuffType)(int.Parse(s[0]));
+            count = int.Parse(s[1]);
+        }
+        else
+        {
+            buff = (CardBuffType)(int.Parse(param));
+        }
+
+        if (target.PlayerBuff.ContainsKey(buff))
+        {
+            target.PlayerBuff[buff] += count;
+        }
+        else
+        {
+            target.PlayerBuff.Add(buff, count);
+        }
+
+        switch (buff)
+        {
+            case CardBuffType.Armor:
+                target.Armor += count;
+                break;
+            case CardBuffType.PhysicalReduction:
+                target.PhysicalReduction = 50 * target.PlayerBuff[CardBuffType.PhysicalReduction];
+                break;
+            case CardBuffType.MagicalReduction:
+                target.MagicalReduction = 50 * target.PlayerBuff[CardBuffType.MagicalReduction];
+                break;
+            case CardBuffType.Sunder:
+                target.Sunder += count;
+            case CardBuffType.Weak:
+                target.Weak += count;
+        }
+    }
+
+
 
 	//移除buff，如果buff加属性，则要将属性也移除
 	void RemoveBuff(Player target, CardBuffType buff){
-		if (target.PlayerBuff.ContainsKey(buff))
-		{
-			switch (buff)
-			{
-				case CardBuffType.Armor1:
-					break;
-				case CardBuffType.Armor2:
-					break;
-				case CardBuffType.Armor3:
-					break;
-			}
-			target.PlayerBuff.Remove(buff);
-		}
+
+        target.PlayerBuffs.Remove(buff);
+		
 	}
 
 }

@@ -15,6 +15,7 @@ public enum CardEffectType{
 	//伤害类
 	PhysicalDamage,
 	MagicalDamage,
+    SelfDamage,
 	//内力类
 	AddMana=10,
 	ReduceMana,
@@ -22,6 +23,7 @@ public enum CardEffectType{
 	ClearMana,
 	//Buff类
 	AddBuff=20,
+    SelfAddBuff,
 	DoublePoison,
 	//召唤
 	Summon=30,
