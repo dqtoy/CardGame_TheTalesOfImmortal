@@ -29,11 +29,6 @@ public enum CardPlayCondition{
 	EnemyHpNoMoreThanTwelve,
 }
     	
-
-
-
-
-
 //Trigger类型的可以保留
 public enum SkillTriggerType{
 	None,

@@ -47,6 +47,13 @@ public class BattleManager : MonoBehaviour {
 
 		return result;
 	}
-	
+
+	void StartRound(Player player){
+		if (player.Hands.Count < player.Card) {
+			player.DrawCards (player.Card - player.Hands.Count);
+		}
+			
+	}
+		
 
 }
