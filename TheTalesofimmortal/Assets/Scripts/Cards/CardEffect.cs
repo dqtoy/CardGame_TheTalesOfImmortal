@@ -15,32 +15,26 @@ public enum CardEffectType{
 	//伤害类
 	PhysicalDamage,
 	MagicalDamage,
-    SelfDamage,
+    DirectDamage,//直接伤害
 	//内力类
-	AddMana=10,
+    AddMp=10,
 	ReduceMana,
-	AbsorbMana,
 	ClearMana,
 	//Buff类
 	AddBuff=20,
-    SelfAddBuff,
-	DoublePoison,
+	DoublePoison,//加倍中毒，最多不超过10层
 	//召唤
 	Summon=30,//1|2 puppetId|puppetId
 	//卡牌类
 	DrawCard=40,
 	RemoveCard,
-
+    AddCardToHand,//id|数量
+    AddCardToLibrary,
 	//直接灭杀
 	InstantKill=50,
-	Devour,
 	//技能
 	AddTriggerSkill=60,
 	//针对召唤物
 	KillEnemyPuppet=500,//参数 1，2，3 99所有
 	KillMyPuppet,//参数 1，2，3 99所有
-	DamageEnemyPuppets,//参数 数量|值
-	DamageMyPuppets,//参数 数量|值
-	AddAtkToMyPuppets,//参数 数量|值
-	ReduceAtkToEnemyPuppets,//参数 数量|值
 }

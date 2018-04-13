@@ -1,10 +1,9 @@
 ﻿using System;
 
 
-public class Puppet
+public class Puppet:Target
 {
     public int Id;
-    public int Hp;
     public int Damage;
 
     public Puppet(int puppetId)

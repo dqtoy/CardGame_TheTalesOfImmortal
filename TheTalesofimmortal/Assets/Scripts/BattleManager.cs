@@ -10,7 +10,7 @@ public class BattleManager : MonoBehaviour {
 	private Player _enemy;
 	private PlayerView _playerView;
 	private PlayerView _enemyView;
-
+    private Target target;
 	// Use this for initialization
 	void Start () {
 		
@@ -18,8 +18,8 @@ public class BattleManager : MonoBehaviour {
 
 
 	void InitBattleField(){
-		_player = new Player (100, 100, 5, new List<CardData> ());
-		_enemy = new Player (100, 100, 5, new List<CardData> ());
+        _player = new Player (100, 100, 5, new List<Card> ());
+        _enemy = new Player (100, 100, 5, new List<Card> ());
 	}
 
 	public bool CanPlay(Player dealer, CardData card){
@@ -29,6 +29,8 @@ public class BattleManager : MonoBehaviour {
 	public void PlayCard(Player attacker,Player defender,CardData card){
 		foreach (CardEffect effect in card.Effects) {
 			ExcuteCardEffect (attacker, defender, effect);
+            //CheckIsPlayerDead
+            //CheckIsTargetDead
 		}
 	}
 
@@ -42,16 +44,15 @@ public class BattleManager : MonoBehaviour {
 			Debug.Log ("Can not find method by " + methodName);
 			return 0;
 		}
-		object[] parameters = new object[]{ attacker, defender, effect };
+		object[] parameters = new object[]{ attacker, effect,target };
 		int result = (int)method.Invoke (handler, parameters);
+
 
 		return result;
 	}
 
 	void StartRound(Player player){
-		if (player.Hands.Count < player.Card) {
-			player.DrawCards (player.Card - player.Hands.Count);
-		}
+		
 			
 	}
 		

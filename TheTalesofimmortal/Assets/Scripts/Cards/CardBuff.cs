@@ -29,4 +29,5 @@ public enum CardBuffType{
 	Rebound,//荆棘,物理反伤 类型|层数|持续回合
 	Dodge,//闪避，闪避内伤和外伤 类型|层数|持续回合
     DamageToMana,//内力护盾
+    //伤转攻
 }

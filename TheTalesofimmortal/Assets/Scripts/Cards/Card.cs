@@ -8,4 +8,8 @@ public class Card : MonoBehaviour {
 	public void Init(CardData data){
 		this.data = data;
 	}
+
+    public Card(int cardId){
+        
+    }
 }

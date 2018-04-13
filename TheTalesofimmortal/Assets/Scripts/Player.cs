@@ -1,41 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class Player{
-    public int Hp = 1;
-    public int HpMax = 1;
-    public int Mp = 1;
+public class Player:Target{
+    
     public int Card = 3;
 
-    public int Shield;
-    public int Armor = 0;
-    public int PhysicalReduction = 0;
-    public int MagicalReduction = 0;
-    public int HealPerRound;
-    public int Poison = 0;
-    public int Sunder = 0;
-    public int Weak = 0;
-    public int Acceleration = 0;
-    public int Deceleration = 0;
-    public int Rebound = 0;
-    public int Dodge = 0;
-    public bool DamageToMana = false;
-
-	public Dictionary<CardBuffType,int> PlayerBuff;//id,层数&效果
-    public List<CardBuff> PlayerBuffs;
-	public List<CardData> Library;
-	public List<CardData> Hands;
-	public List<CardData> Graveyard;
+    public List<Card> Library;
+    public List<Card> Hands;
+    public List<Card> Graveyard;
     public List<Puppet> Puppets;
 
-	public Player(int hp,int hpMax,int initMana,List<CardData> library){
-        Hp = hp;
+    public Player(int hp,int hpMax,int initMana,List<Card> library){
+        HP = hp;
         HpMax = hpMax;
-        Mp = initMana;
-        PlayerBuffs = new List<CardBuff>();
+        MP = initMana;
+        Buffs = new List<CardBuff>();
         Library = library;
-        Hands = new List<CardData>();
-        Graveyard = new List<CardData>();
+        Hands = new List<Card>();
+        Graveyard = new List<Card>();
         Puppets = new List<Puppet>();
     }
 
@@ -44,24 +27,24 @@ public class Player{
 		if (Hands.Count < Card) {
 			DrawCards (Card - Hands.Count);
 		}
-
 	}
 
 	public void StartRound(){
 		//结算buff效果
-		if (HealPerRound > 0)
-			Hp += HealPerRound;
+        if (HealPerRound > 0)
+            Heal(HealPerRound);
 		if (Poison > 0) {
-			Hp -= Poison;
+            Damage(Poison);
+            Poison--;
 		}
 
 		//结算Duration
-		for(int i=0;i<PlayerBuffs.Count;i++){
-			PlayerBuffs [i].Duration--;
-			if (PlayerBuffs [i].Duration<=0) {
+		for(int i=0;i<Buffs.Count;i++){
+			Buffs [i].Duration--;
+			if (Buffs [i].Duration<=0) {
 
 				//清楚效果
-				PlayerBuffs.RemoveAt (i);
+				Buffs.RemoveAt (i);
 			}
 		}
 	}
@@ -77,19 +60,32 @@ public class Player{
 				}
 			}
 			int index = MathCalculation.GetRandomValue (Library.Count);
-			Hands.Add (Library [index]);
+			AddCardToHand (Library [index],1);
 			Library.RemoveAt (index);
 		}
 	}
 
-	public void RemoveHand(){
-		if (Hands.Count <= 0)
-			return;
-		int index = MathCalculation.GetRandomValue (Hands.Count);
-		RemoveHand (index);
+    public void AddCardToHand(Card card,int count){
+        for (int i = 0; i < count; i++)
+            Hands.Add(card);
+    }
+
+    public void AddCardToLibrary(Card card,int count){
+        for (int i = 0; i < count; i++)
+            Hands.Add(card);
+    }
+
+    public void RemoveRandomCard(int count){
+        for (int i = 0; i < count; i++)
+        {
+            if (Hands.Count <= 0)
+                return;
+            int index = MathCalculation.GetRandomValue(Hands.Count);
+            RemoveHand(index);
+        }
 	}
 
-	public void RemoveHand(int index){
+	void RemoveHand(int index){
 		if (Hands.Count <= index)
 			return;
 		Hands.RemoveAt (index);
