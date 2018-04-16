@@ -50,11 +50,6 @@ public class BattleManager : MonoBehaviour {
 
 		return result;
 	}
-
-	void StartRound(Player player){
-		
-			
-	}
 		
 
 }

@@ -43,10 +43,12 @@ public class Player:Target{
 			Buffs [i].Duration--;
 			if (Buffs [i].Duration<=0) {
 
-				//清楚效果
+				//清除效果
 				Buffs.RemoveAt (i);
 			}
 		}
+
+			
 	}
 
 
