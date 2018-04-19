@@ -103,7 +103,7 @@ public class CardsHandler : MonoBehaviour {
 
 
         SetCardsToHand(o);
-        handCards_Hero.Add(LoadConfigs.CardDictionary[newCardId]);
+//        handCards_Hero.Add(LoadConfigs.CardDictionary[newCardId]);
     }
 
     int GetNewCard(){
@@ -145,7 +145,7 @@ public class CardsHandler : MonoBehaviour {
     /// <param name="c">C.</param>
     public void PlayCard(GameObject o){
     //1.移除手牌并添加到场牌
-        CardData c = LoadConfigs.CardDictionary[int.Parse(o.name)];
+        CardData c = new CardData();
         handCards_Hero.Remove(c);
         playedCards_Hero.Add(c);
 

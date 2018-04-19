@@ -28,24 +28,6 @@ public class ReadTxt
 
         return textArray [nRow] [nCol];
     }
-
-    public static string[][] SeparateStrToArray(string s)
-    {
-        if (!s.Contains ("|"))
-            return null;
-        string[] reqs;
-        if (s.Contains (";")) {
-            reqs = s.Split (';');
-        } else {
-            reqs = new string[1];
-            reqs [0] = s;
-        }
-        string[][] back = new string[reqs.Length][];
-        for (int i=0; i<reqs.Length; i++) {
-            back[i] = reqs[i].Split('|');
-        }
-        return back;
-    }
-
+        
 
 }

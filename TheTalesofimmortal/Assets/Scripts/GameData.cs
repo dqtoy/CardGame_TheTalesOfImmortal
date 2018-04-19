@@ -38,8 +38,8 @@ public class GameData : MonoBehaviour {
     void GetTestCards(){
         for (int i = 0; i < 20; i++)
         {
-            int r = Random.Range(1, LoadConfigs.CardDictionary.Count);
-            thisHero.Cards.Add(LoadConfigs.CardDictionary[r]);
+//            int r = Random.Range(1, LoadConfigs.CardDictionary.Count);
+//            thisHero.Cards.Add(LoadConfigs.CardDictionary[r]);
         }
     }
 
