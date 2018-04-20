@@ -17,17 +17,17 @@ public class LoadConfigs  {
         {
 
             c.Id = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 0));
-            if(c.Id!=id)
-                c.Name = ReadTxt.GetDataByRowAndCol (strs, i + 1, 1);
+            if (c.Id != id)
+                continue;
+            c.Name = ReadTxt.GetDataByRowAndCol(strs, i + 1, 1);
             c.Description = ReadTxt.GetDataByRowAndCol (strs, i + 1, 2);
             c.Price = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 3));
             c.Level = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 4));
             c.MaxLevel = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
-            c.Tier = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 6));
-            c.DecayTo = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 7));
-            c.Type = (CardType)int.Parse(ReadTxt.GetDataByRowAndCol(strs, i + 1, 8));
-            c.Condition = (CardPlayCondition)int.Parse(ReadTxt.GetDataByRowAndCol(strs, i + 1, 9));
-            int[] effectId = ReadString.GetInts(ReadTxt.GetDataByRowAndCol(strs, i + 1, 10));
+            c.MpCost = int.Parse (ReadTxt.GetDataByRowAndCol (strs, i + 1, 5));
+            c.Type = (CardType)int.Parse(ReadTxt.GetDataByRowAndCol(strs, i + 1, 7));
+            c.Condition = (CardPlayCondition)int.Parse(ReadTxt.GetDataByRowAndCol(strs, i + 1, 8));
+            int[] effectId = ReadString.GetInts(ReadTxt.GetDataByRowAndCol(strs, i + 1, 9));
             c.Effects = ReadCardEffect(effectId);
             return c;
         }

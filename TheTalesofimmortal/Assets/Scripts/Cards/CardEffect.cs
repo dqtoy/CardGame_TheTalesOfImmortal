@@ -35,6 +35,6 @@ public enum CardEffectType{
 	//技能
 	AddTriggerSkill=60,
 	//针对召唤物
-	KillEnemyPuppet=500,//参数 1，2，3 99所有
+	KillEnemyPuppet=70,//参数 1，2，3 99所有
 	KillMyPuppet,//参数 1，2，3 99所有
 }

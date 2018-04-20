@@ -210,7 +210,7 @@ public class CardEffectHandler {
 		return 0;
 	}
 
-	//500. 击杀敌方召唤物
+	//70. 击杀敌方召唤物
     int KillEnemyPuppet(Player attacker,string param,Target target){
         Player dealer = (Player)target;
 		int count = int.Parse (param);
@@ -218,7 +218,7 @@ public class CardEffectHandler {
 		return 0;
 	}
 
-	//501. 击杀我方召唤物
+	//71. 击杀我方召唤物
     int KillMyPuppet(Player attacker,string param,Target target){
         Player dealer = (Player)target;
 		int count = int.Parse (param);

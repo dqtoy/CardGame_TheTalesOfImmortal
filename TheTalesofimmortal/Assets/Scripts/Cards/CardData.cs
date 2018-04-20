@@ -9,8 +9,7 @@ public class CardData {
 
     public int Level;
     public int MaxLevel;
-    public int DecayTo;
-    public int Tier;
+    public int MpCost;
 	public CardType Type;
 	public CardPlayCondition Condition;
 	public CardEffect[] Effects;
@@ -19,7 +18,7 @@ public class CardData {
 public enum CardType{
 	Physical,
 	Magical,
-	Mana,
+	Mp,
 	Trigger,
 }
 
@@ -38,11 +37,6 @@ public enum SkillTriggerType{
 	EnemyPlayManaCard,
 	EnemyPlayTriggerCard,
 }
-
-
-public enum AttackType{
-	Physical,
-	Magical,
-}
+    
     
 
