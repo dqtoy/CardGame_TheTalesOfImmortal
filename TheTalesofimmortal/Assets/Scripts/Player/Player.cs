@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player:Target{
     
     public int Card = 3;
+	public bool TurnOn = false;
 
     public List<Card> Library;
     public List<Card> Hands;
@@ -23,6 +24,8 @@ public class Player:Target{
     }
 
 	public void EndRound(){
+		//清除手牌中的无效卡
+
 		//抽卡
 		if (Hands.Count < Card) {
 			DrawCards (Card - Hands.Count);
@@ -48,7 +51,8 @@ public class Player:Target{
 			}
 		}
 
-			
+		//打开发牌状态
+		TurnOn=true;
 	}
 
 

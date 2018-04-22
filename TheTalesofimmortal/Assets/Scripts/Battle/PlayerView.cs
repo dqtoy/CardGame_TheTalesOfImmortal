@@ -4,14 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerView : MonoBehaviour {
-	private Image ProfileImage;
-	private Text ManaText;
+
+
 	private Slider HpSlider;
+	private Text MpText;
+	private Button[] Buffs;
+	private Image ProfileImage;
 
 	void Start () {
 		ProfileImage = GetComponentInChildren<Image> ();
-		ManaText = GetComponentInChildren<Text> ();
+		MpText = GetComponentInChildren<Text> ();
 		HpSlider = GetComponentInChildren<Slider> ();
+		Buffs = GetComponentsInChildren<Button> ();
 	}
 	
 

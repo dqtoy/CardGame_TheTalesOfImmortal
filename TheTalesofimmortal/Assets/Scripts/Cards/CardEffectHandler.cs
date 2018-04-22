@@ -167,16 +167,17 @@ public class CardEffectHandler {
     //42. 将特定卡加至手牌
     int AddCardToHand(Player attacker,string param,Target target){
         Player dealer = (Player)target;
-        Card card;
+        
+		GameObject g = Resources.Load ("card") as GameObject;
+		Card card = g.GetComponent<Card> ();
         int count = 1;
-        if (param.Contains("|"))
-        {
-            string[] s = param.Split('|');
-            card = new Card(int.Parse(s[0]));
-            count = int.Parse(s[1]);
-        }
-        else
-            card = new Card(int.Parse(param));
+		if (param.Contains ("|")) {
+			string[] s = param.Split ('|');
+			card.Init (int.Parse (s [0]));
+			count = int.Parse (s [1]);
+		} else {
+			card.Init (int.Parse (param));
+		}
         dealer.AddCardToHand(card,count);
         return count;
     }
@@ -184,16 +185,17 @@ public class CardEffectHandler {
     //43. 将特定卡加至牌库
     int AddCardToLibrary(Player attacker,string param,Target target){
         Player dealer = (Player)target;
-        Card card;
+		GameObject g = Resources.Load ("card") as GameObject;
+		Card card = g.GetComponent<Card> ();
         int count = 1;
         if (param.Contains("|"))
         {
             string[] s = param.Split('|');
-            card = new Card(int.Parse(s[0]));
+			card.Init(int.Parse(s[0]));
             count = int.Parse(s[1]);
         }
         else
-            card = new Card(int.Parse(param));
+            card.Init(int.Parse(param));
         dealer.AddCardToLibrary(card,count);
         return count;
     }

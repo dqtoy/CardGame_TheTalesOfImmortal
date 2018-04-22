@@ -8,19 +8,27 @@ public class BattleManager : MonoBehaviour {
 
 	private Player _player;
 	private Player _enemy;
+	private BattleView _view;
 	private PlayerView _playerView;
 	private PlayerView _enemyView;
     private Target target;
-	// Use this for initialization
+
 	void Start () {
 		
 	}
 
 
 	void InitBattleField(){
-        _player = new Player (100, 100, 5, new List<Card> ());
-        _enemy = new Player (100, 100, 5, new List<Card> ());
+		List<Card> lib = new List<Card> ();
+
+		GameObject g = Resources.Load ("card") as GameObject;
+		g.GetComponent<Card> ().Init (100);
+
+		_player = new Player (100, 100, 5, lib);
+		_enemy = new Player (100, 100, 5, lib);
 	}
+
+
 
 	public bool CanPlay(Player dealer, CardData card){
 		return true;

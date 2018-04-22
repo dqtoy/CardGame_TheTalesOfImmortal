@@ -5,13 +5,13 @@ using System.Collections.Generic;
 public class LoadConfigs  {
 
 	
-    public CardData ReadCardData(int id){
+    public static CardData ReadCardData(int id){
         string[][] strs = ReadTxt.ReadText("cards");
         CardData c = ExcuteReadCardData(id, strs);
         return c;
     }
 
-    CardData ExcuteReadCardData(int id,string[][] strs){
+    static CardData ExcuteReadCardData(int id,string[][] strs){
         CardData c = new CardData();
         for (int i = 0; i < strs.Length-1; i++)
         {
@@ -41,7 +41,7 @@ public class LoadConfigs  {
 //        return ce;
 //    }
 
-    public CardEffect[] ReadCardEffect(int[] id){
+    public static CardEffect[] ReadCardEffect(int[] id){
         string[][] strs = ReadTxt.ReadText("cardeffects");
         CardEffect[] ces = new CardEffect[id.Length];
         for (int i = 0; i < ces.Length; i++)
@@ -51,7 +51,7 @@ public class LoadConfigs  {
         return ces;
     }
 
-    CardEffect ExcuteReadCardEffect(int id,string[][] strs){
+    static CardEffect ExcuteReadCardEffect(int id,string[][] strs){
         CardEffect ce = new CardEffect();
         for (int i = 0; i < strs.Length; i++)
         {

@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Card : MonoBehaviour {
 	public CardData data;
-    public Card(int cardId){
-		
-    }
+	public void Init(int cardId){
+		data = LoadConfigs.ReadCardData (cardId);
+//		this.gameObject.GetComponent<Image> ().sprite = Resources.Load (data.Name) as Sprite;
+	}
 }
