@@ -48,6 +48,7 @@ public class Player:Target{
 
 				//清除效果
 				Buffs.RemoveAt (i);
+                base.View.UpdateBuffs(this as Target);
 			}
 		}
 

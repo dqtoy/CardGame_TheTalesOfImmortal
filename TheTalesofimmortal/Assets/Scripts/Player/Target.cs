@@ -23,30 +23,35 @@ public class Target
     public bool DamageToMana = false;
 
     public List<CardBuff> Buffs;
-
+    public TargetView View;
 
     public int Heal(int value){
         int v = Mathf.Min(value, HpMax - HP);
         HP += v;
+        View.UpdateHp(HP, HpMax);
         return v;
     }
 
     public int Damage(int value){
         int v = Mathf.Min(value, HP);
         HP -= v;
+        View.UpdateHp(HP, HpMax);
         return v;
     }
 
     public int HealMp(int value){
         MP += value;
+        View.UpdateMp(MP);
         return value;
     }
 
     public int DamageMp(int value){
         int v = Mathf.Min(value, HP);
         MP -= v;
+        View.UpdateMp(MP);
         return v;
     }
+        
 
 }
 
