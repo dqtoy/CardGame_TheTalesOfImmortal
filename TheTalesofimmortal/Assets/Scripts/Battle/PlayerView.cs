@@ -5,25 +5,28 @@ using System.Collections.Generic;
 public class PlayerView : TargetView {
 
 
-	private Slider HpSlider;
-    private Text HpText;
-    private Text HpMaxText;
-	private Text MpText;
-	private Button[] Buffs;
-	private Image ProfileImage;
+	public Slider HpSlider;
+    public Text HpText;
+    public Text HpMaxText;
+	public Text MpText;
+	public Button[] Buffs;
+	public Image ProfileImage;
 
-	void Start () {
-		ProfileImage = GetComponentInChildren<Image> ();
-        Text[] t = GetComponentsInChildren<Text>();
-        MpText = t[0];
-        HpText = t[1];
-        HpMaxText = t[2];
-		HpSlider = GetComponentInChildren<Slider> ();
-		Buffs = GetComponentsInChildren<Button> ();
-	}
+//	void Start () {
+//        Debug.Log("PlayerView Start");
+//		ProfileImage = GetComponentInChildren<Image> ();
+//        Text[] t = GetComponentsInChildren<Text>();
+//        MpText = t[0];
+//        HpText = t[1];
+//        HpMaxText = t[2];
+//		HpSlider = GetComponentInChildren<Slider> ();
+//		Buffs = GetComponentsInChildren<Button> ();
+//	}
 	
+
+
     public override void UpdateProfile(string path){
-        ProfileImage.sprite = Resources.Load(path) as Sprite;
+        ProfileImage.sprite = Resources.Load(path,typeof(Sprite)) as Sprite;
     }
 
 

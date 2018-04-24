@@ -12,7 +12,7 @@ public class Player:Target{
     public List<Card> Graveyard;
     public List<Puppet> Puppets;
 
-    public Player(int hp,int hpMax,int initMana,List<Card> library){
+    public Player(int hp,int hpMax,int initMana,List<Card> library,PlayerView view){
         HP = hp;
         HpMax = hpMax;
         MP = initMana;
@@ -21,6 +21,16 @@ public class Player:Target{
         Hands = new List<Card>();
         Graveyard = new List<Card>();
         Puppets = new List<Puppet>();
+        View = view as TargetView;
+        BattleInit();
+    }
+
+    //开始战斗时的初始化
+    void BattleInit(){
+        View.UpdateProfile("HeadImage/hero1");
+        View.UpdateHp(HP, HpMax);
+        View.UpdateMp(MP);
+        View.UpdateBuffs(this as Target);
     }
 
 	public void EndRound(){
@@ -48,7 +58,7 @@ public class Player:Target{
 
 				//清除效果
 				Buffs.RemoveAt (i);
-                base.View.UpdateBuffs(this as Target);
+                View.UpdateBuffs(this as Target);
 			}
 		}
 

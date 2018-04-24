@@ -11,5 +11,6 @@ public class TargetView:MonoBehaviour
     public virtual void UpdateAtk(int atk){}
 
     public virtual void UpdateBuffs(Target t){}
+
 }
 

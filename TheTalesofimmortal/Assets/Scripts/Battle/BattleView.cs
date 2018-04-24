@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class BattleView : MonoBehaviour {
 
-	public GameObject player;
-	public GameObject enemy;
-
-
 	List<GameObject> CardsInHand;
 	List<GameObject> CardsPlayed;
 	List<GameObject> MyPuppets;

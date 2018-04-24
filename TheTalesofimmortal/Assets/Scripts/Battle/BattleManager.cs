@@ -6,6 +6,9 @@ using System;
 
 public class BattleManager : MonoBehaviour {
 
+    public PlayerView playerView;
+    public PlayerView enemyView;
+
 	private Player _player;
 	private Player _enemy;
 	private BattleView _view;
@@ -14,18 +17,19 @@ public class BattleManager : MonoBehaviour {
     private Target target;
 
 	void Start () {
-		
+        InitBattleField();
 	}
 
 
 	void InitBattleField(){
 		List<Card> lib = new List<Card> ();
 
-		GameObject g = Resources.Load ("card") as GameObject;
-		g.GetComponent<Card> ().Init (100);
+        //配置卡牌数据
+//		GameObject g = Resources.Load ("card") as GameObject;
+//		g.GetComponent<Card> ().Init (100);
 
-		_player = new Player (100, 100, 5, lib);
-		_enemy = new Player (100, 100, 5, lib);
+        _player = new Player (100, 100, 5, lib,playerView);
+        _enemy = new Player (100, 100, 5, lib,enemyView);
 	}
 
 
