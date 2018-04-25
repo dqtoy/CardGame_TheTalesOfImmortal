@@ -11,8 +11,9 @@ public class Player:Target{
     public List<Card> Hands;
     public List<Card> Graveyard;
     public List<Puppet> Puppets;
+    public CardsContainer Container;
 
-    public Player(int hp,int hpMax,int initMana,List<Card> library,PlayerView view){
+    public Player(int hp,int hpMax,int initMana,List<Card> library,PlayerView view,CardsContainer container){
         HP = hp;
         HpMax = hpMax;
         MP = initMana;
@@ -22,6 +23,7 @@ public class Player:Target{
         Graveyard = new List<Card>();
         Puppets = new List<Puppet>();
         View = view as TargetView;
+        Container = container;
         BattleInit();
     }
 

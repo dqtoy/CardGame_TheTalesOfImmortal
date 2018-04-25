@@ -8,6 +8,8 @@ public class BattleManager : MonoBehaviour {
 
     public PlayerView playerView;
     public PlayerView enemyView;
+    public CardsContainer playerCardsContainer;
+    public CardsContainer enemyCardsContainer;
 
 	private Player _player;
 	private Player _enemy;
@@ -22,15 +24,15 @@ public class BattleManager : MonoBehaviour {
 
 
 	void InitBattleField(){
-		List<Card> lib = new List<Card> ();
+        List<Card> lib = new List<Card>();
 
         //配置卡牌数据
 //		GameObject g = Resources.Load ("card") as GameObject;
 //		g.GetComponent<Card> ().Init (100);
 
-        _player = new Player (100, 100, 5, lib,playerView);
-        _enemy = new Player (100, 100, 5, lib,enemyView);
-	}
+        _player = new Player(100, 100, 5, lib, playerView, playerCardsContainer);
+        _enemy = new Player(100, 100, 5, lib, enemyView, enemyCardsContainer);
+    }
 
 
 

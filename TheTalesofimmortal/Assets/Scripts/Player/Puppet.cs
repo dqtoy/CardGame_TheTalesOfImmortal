@@ -4,7 +4,7 @@
 public class Puppet:Target
 {
     public int Id;
-    public int Damage;
+    public int Atk;
 
     public Puppet(int puppetId)
     {

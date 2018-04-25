@@ -36,7 +36,7 @@ public class CardEffectHandler {
         //物理反伤(有可能会双方同时死亡)，注意反伤可能会跟内力盾冲突
         if(target.Rebound>0){
             int damage = value * target.Rebound / 100;
-            ExcuteReboundDamage (attacker, value);
+            ExcuteReboundDamage (attacker, damage);
         }
 
 		//内力盾

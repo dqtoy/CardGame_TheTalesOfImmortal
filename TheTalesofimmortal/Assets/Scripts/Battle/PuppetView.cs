@@ -4,16 +4,9 @@ using UnityEngine.UI;
 public class PuppetView : TargetView {
 
 
-    private Text HpText;
-    private Text AtkText;
-    private Image ProfileImage;
-
-    void Start () {
-        ProfileImage = GetComponentInChildren<Image> ();
-        Text[] ts = GetComponentsInChildren<Text>();
-        HpText = ts[0];
-        AtkText = ts[1];
-    }
+    public Text HpText;
+    public Text AtkText;
+    public Image ProfileImage;
 
     public override void UpdateProfile(string path){
         ProfileImage.sprite = Resources.Load(path) as Sprite;
