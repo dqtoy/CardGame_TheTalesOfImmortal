@@ -2,6 +2,7 @@
 using UnityEngine;
 public class TargetView:MonoBehaviour
 {
+
     public virtual void UpdateProfile(string path){}
 
     public virtual void UpdateHp(int hp,int maxHp){}

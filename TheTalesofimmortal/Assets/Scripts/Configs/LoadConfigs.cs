@@ -6,7 +6,7 @@ public class LoadConfigs  {
 
 	
     public static CardData ReadCardData(int id){
-        string[][] strs = ReadTxt.ReadText("cards");
+        string[][] strs = ReadTxt.ReadText("Configs/cards");
         CardData c = ExcuteReadCardData(id, strs);
         return c;
     }
@@ -42,7 +42,7 @@ public class LoadConfigs  {
 //    }
 
     public static CardEffect[] ReadCardEffect(int[] id){
-        string[][] strs = ReadTxt.ReadText("cardeffects");
+        string[][] strs = ReadTxt.ReadText("Configs/cardeffect");
         CardEffect[] ces = new CardEffect[id.Length];
         for (int i = 0; i < ces.Length; i++)
         {

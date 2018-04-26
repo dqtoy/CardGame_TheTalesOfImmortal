@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Target
 {
+    public PlayerInfo Info;
     public int HP;
     public int HpMax;
 
@@ -53,6 +54,13 @@ public class Target
     }
         
 
+}
+
+//暂无引用
+public enum PlayerInfo{
+    Player,
+    Enemy,
+    Puppet
 }
 
 

@@ -12,18 +12,12 @@ public class PlayerView : TargetView {
 	public Button[] Buffs;
 	public Image ProfileImage;
 
-//	void Start () {
-//        Debug.Log("PlayerView Start");
-//		ProfileImage = GetComponentInChildren<Image> ();
-//        Text[] t = GetComponentsInChildren<Text>();
-//        MpText = t[0];
-//        HpText = t[1];
-//        HpMaxText = t[2];
-//		HpSlider = GetComponentInChildren<Slider> ();
-//		Buffs = GetComponentsInChildren<Button> ();
-//	}
-	
-
+    public void Init(Player player){
+        UpdateProfile("HeadImage/hero1");
+        UpdateHp(player.HP, player.HpMax);
+        UpdateMp(player.MP);
+        UpdateBuffs(player as Target);
+    }
 
     public override void UpdateProfile(string path){
         ProfileImage.sprite = Resources.Load(path,typeof(Sprite)) as Sprite;

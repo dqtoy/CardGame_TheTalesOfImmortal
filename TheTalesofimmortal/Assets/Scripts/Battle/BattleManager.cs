@@ -6,11 +6,8 @@ using System;
 
 public class BattleManager : MonoBehaviour {
 
-    public PlayerView playerView;
-    public PlayerView enemyView;
-    public CardsContainer playerCardsContainer;
-    public CardsContainer enemyCardsContainer;
 
+    private BattleView battleView;
 	private Player _player;
 	private Player _enemy;
 	private BattleView _view;
@@ -19,6 +16,7 @@ public class BattleManager : MonoBehaviour {
     private Target target;
 
 	void Start () {
+        battleView = GetComponent<BattleView>();
         InitBattleField();
 	}
 
@@ -26,14 +24,35 @@ public class BattleManager : MonoBehaviour {
 	void InitBattleField(){
         List<Card> lib = new List<Card>();
 
-        //配置卡牌数据
-//		GameObject g = Resources.Load ("card") as GameObject;
-//		g.GetComponent<Card> ().Init (100);
+        //从地牢获取角色数据
+        //从configs读取Monster数据
+        for (int i = 0; i < 10; i++)
+        {
+            GameObject g = Resources.Load("Prefab/card") as GameObject;
+            Card c = g.GetComponent<Card>();
+            c.Init(100);
+            lib.Add(c);
+        }
 
-        _player = new Player(100, 100, 5, lib, playerView, playerCardsContainer);
-        _enemy = new Player(100, 100, 5, lib, enemyView, enemyCardsContainer);
+        //初始化角色
+        _player = new Player(PlayerInfo.Player, 100, 100, 5, lib, battleView.playerView);
+        _enemy = new Player(PlayerInfo,Enemy, 100, 100, 5, lib, battleView.enemyView);
+
+        //初始化战场
+        battleView.Init();
+        _player.Init();
+        _enemy.Init();
+
+        //开始第一回合
     }
 
+    void BattleStart(){
+        //判断是否是玩家先手
+        if (true)
+        {
+            _player.StartRound();
+        }
+    }
 
 
 	public bool CanPlay(Player dealer, CardData card){

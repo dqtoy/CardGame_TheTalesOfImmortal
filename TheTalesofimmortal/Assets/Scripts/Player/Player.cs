@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Player:Target{
     
-    public int Card = 3;
+    public int RoundCard = 3;
 	public bool TurnOn = false;
 
     public List<Card> Library;
     public List<Card> Hands;
     public List<Card> Graveyard;
     public List<Puppet> Puppets;
-    public CardsContainer Container;
 
-    public Player(int hp,int hpMax,int initMana,List<Card> library,PlayerView view,CardsContainer container){
+    public Player(PlayerInfo info, int hp,int hpMax,int initMana,List<Card> library,PlayerView view){
+        Info = info;
         HP = hp;
         HpMax = hpMax;
         MP = initMana;
@@ -23,26 +23,21 @@ public class Player:Target{
         Graveyard = new List<Card>();
         Puppets = new List<Puppet>();
         View = view as TargetView;
-        Container = container;
-        BattleInit();
     }
 
-    //开始战斗时的初始化
-    void BattleInit(){
-        View.UpdateProfile("HeadImage/hero1");
-        View.UpdateHp(HP, HpMax);
-        View.UpdateMp(MP);
-        View.UpdateBuffs(this as Target);
+    public void Init(){
+        DrawCards(RoundCard);
     }
 
 	public void EndRound(){
 		//清除手牌中的无效卡
 
 		//抽卡
-		if (Hands.Count < Card) {
-			DrawCards (Card - Hands.Count);
+		if (Hands.Count < RoundCard) {
+			DrawCards (RoundCard - Hands.Count);
 		}
 	}
+
 
 	public void StartRound(){
 		//结算buff效果
@@ -86,12 +81,16 @@ public class Player:Target{
 
     public void AddCardToHand(Card card,int count){
         for (int i = 0; i < count; i++)
+        {
             Hands.Add(card);
+        }
     }
 
     public void AddCardToLibrary(Card card,int count){
         for (int i = 0; i < count; i++)
+        {
             Hands.Add(card);
+        }
     }
 
     public void RemoveRandomCard(int count){
