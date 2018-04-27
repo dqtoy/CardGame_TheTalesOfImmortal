@@ -23,23 +23,25 @@ public class BattleManager : MonoBehaviour {
 
 	void InitBattleField(){
         List<Card> lib = new List<Card>();
-
+        Transform canvas = GetComponentInParent<Canvas>().transform;
         //从地牢获取角色数据
         //从configs读取Monster数据
         for (int i = 0; i < 10; i++)
         {
-            GameObject g = Resources.Load("Prefab/card") as GameObject;
+            GameObject g = Instantiate(Resources.Load("Prefab/card")) as GameObject;
             Card c = g.GetComponent<Card>();
             c.Init(100);
             lib.Add(c);
+            g.transform.SetParent(canvas);
+            g.SetActive(false);
         }
 
         //初始化角色
-        _player = new Player(PlayerInfo.Player, 100, 100, 5, lib, battleView.playerView);
-        _enemy = new Player(PlayerInfo,Enemy, 100, 100, 5, lib, battleView.enemyView);
+        _player = new Player(PlayerInfo.Player, 100, 100, 5, lib, battleView.playerView,battleView);
+        _enemy = new Player(PlayerInfo.Enemy, 100, 100, 5, lib, battleView.enemyView, battleView);
 
         //初始化战场
-        battleView.Init();
+        battleView.Init(_player,_enemy);
         _player.Init();
         _enemy.Init();
 
@@ -84,5 +86,8 @@ public class BattleManager : MonoBehaviour {
 		return result;
 	}
 		
+    public void DrawCardTest(int count){
+        _player.DrawCards(count);
+    }
 
 }

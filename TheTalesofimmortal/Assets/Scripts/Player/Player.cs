@@ -11,8 +11,10 @@ public class Player:Target{
     public List<Card> Hands;
     public List<Card> Graveyard;
     public List<Puppet> Puppets;
+    private BattleView BattleField;
 
-    public Player(PlayerInfo info, int hp,int hpMax,int initMana,List<Card> library,PlayerView view){
+
+    public Player(PlayerInfo info, int hp,int hpMax,int initMana,List<Card> library,PlayerView view,BattleView battleview){
         Info = info;
         HP = hp;
         HpMax = hpMax;
@@ -23,6 +25,7 @@ public class Player:Target{
         Graveyard = new List<Card>();
         Puppets = new List<Puppet>();
         View = view as TargetView;
+        BattleField = battleview;
     }
 
     public void Init(){
@@ -83,6 +86,7 @@ public class Player:Target{
         for (int i = 0; i < count; i++)
         {
             Hands.Add(card);
+            BattleField.DrawCard(Info, card.gameObject);
         }
     }
 
