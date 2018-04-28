@@ -18,14 +18,17 @@ public class TargetArrow : MonoBehaviour {
 			RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up);
 			if (hit.collider == null) {
 				if (lastHover != null)
-					lastHover.Leave ();
+					lastHover.Recover ();
 			} else {
 				thisHover = hit.collider.GetComponent<TargetHover> ();
 				if (thisHover != lastHover) {
 					if (lastHover != null)
-						lastHover.Leave ();
-					lastHover = thisHover;
-					lastHover.In ();
+						lastHover.Recover ();
+                    
+                    lastHover = thisHover;
+
+                    if (lastHover != null)
+                        lastHover.HighLight();
 				}
 			}
 		}

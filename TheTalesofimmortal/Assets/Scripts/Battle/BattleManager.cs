@@ -69,6 +69,7 @@ public class BattleManager : MonoBehaviour {
 		}
 	}
 
+    //这里的defender要改为target
 	int ExcuteCardEffect(Player attacker,Player defender,CardEffect effect){
 		if (effect.Type == CardEffectType.None)
 			return 0;

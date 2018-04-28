@@ -3,14 +3,19 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TargetHover : MonoBehaviour {
-	public void In(){
-		Debug.Log ("Hovering " + this.gameObject.name);
+
+    private Color org;
+
+    void Start(){
+        org = GetComponent<Image>().color;
+    }
+
+	public void HighLight(){
 		Image i	= GetComponent<Image> ();
 		i.color = Color.black;
 	}
-	public void Leave(){
-		Debug.Log ("Leaving " + this.gameObject.name);
+	public void Recover(){
 		Image i = GetComponent<Image> ();
-		i.color = Color.white;
+        i.color = org;
 	}
 }

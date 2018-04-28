@@ -17,7 +17,7 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
 	private GameObject navigator;
 	private Vector3 lastPos;
 	private Vector3 presentPos;
-	private TargetArrow arrow;
+	static TargetArrow arrow;
    
 
     void Start(){
@@ -62,9 +62,9 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
 		//3.2 检测落点的区域属性,并根据区域判定卡牌效果
         RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up);
 		if (hit.collider == null) {
-			Debug.Log ("SetBack!");
+            //Do nothing.
 		} else {
-			Debug.Log(hit.collider.gameObject.name);
+            Action(hit.collider.gameObject.name);
 		}
 
 		//3.3 销毁导航器
@@ -72,5 +72,8 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
 		arrow.Off ();
     }
 
+    public virtual void Action(string param){
+        Debug.Log(param);
+    }
 
 }

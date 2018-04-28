@@ -35,7 +35,7 @@ public class BattleView : MonoBehaviour {
         {
             CardsInPlayerLibrary.Remove(card);
             card.SetActive(true);
-            PlayerHandContainer.AddCard(CardsInPlayerHand, card, Vector3.zero);
+            PlayerHandContainer.AddCard(CardsInPlayerHand, card, new Vector3(-733, -365, 0));
         }else if(info == PlayerInfo.Enemy){
             CardsInEnemyLibrary.Remove(card);
             CardsInEnemyHand.Add(card);
@@ -45,26 +45,30 @@ public class BattleView : MonoBehaviour {
 
     public void PlayCard(PlayerInfo info,GameObject card){
         CardsPlayed.Add(card);
-        PlayedContainer.AddCard(CardsPlayed, card, Vector3.zero);
-        if (info = PlayerInfo.Player)
+        Vector3 startPos = new Vector3(733, 400, 0);
+        if (info == PlayerInfo.Player)
         {
             CardsInPlayerHand.Remove(card);
+            startPos = new Vector3(card.transform.localPosition.x + 105f,
+                card.transform.localPosition.y - 375.4f, 
+                card.transform.localPosition.x);
         }
-        else if (info = PlayerInfo.Enemy)
+        else if (info == PlayerInfo.Enemy)
         {
             CardsInEnemyHand.Remove(card);
             UpdateEnemyHandShow();
             card.SetActive(true);
         }
+        PlayedContainer.AddCard(CardsPlayed, card, Vector3.zero);
     }
 
     public void DiscardCard(PlayerInfo info,GameObject card){
         if (info == PlayerInfo.Player)
         {
             CardsInPlayerHand.Remove(card);
-            PlayerHandContainer.MoveAway(CardsInPlayerTomb, card, Vector3.zero);
+            PlayerHandContainer.MoveAway(CardsInPlayerTomb, card, new Vector3(-733, -175, 0));
         }
-        else if (info = PlayerInfo.Enemy)
+        else if (info == PlayerInfo.Enemy)
         {
             CardsInEnemyTomb.Add(card);
             CardsInEnemyHand.Remove(card);
@@ -73,26 +77,27 @@ public class BattleView : MonoBehaviour {
     }
 
     public void ClearPlayedArea(PlayerInfo info){
+
         while (CardsPlayed.Count > 0)
         {
             if (info == PlayerInfo.Player)
             {
-                PlayedContainer.MoveAway(CardsInPlayerTomb, CardsPlayed[0], Vector3.zero);    
+                PlayedContainer.MoveAway(CardsInPlayerTomb, CardsPlayed[0], new Vector3(-733, -175, 0));    
             }
             else if (info == PlayerInfo.Enemy)
             {
-                PlayedContainer.MoveAway(CardsInEnemyTomb, CardsPlayed[0], Vector3.zero);
+                PlayedContainer.MoveAway(CardsInEnemyTomb, CardsPlayed[0], new Vector3(-733, 365, 0));
             }
             CardsPlayed.RemoveAt(0);
         }
     }
 
     public void Shuffle(PlayerInfo info){
-        if (info = PlayerInfo.Player)
+        if (info == PlayerInfo.Player)
         {
             Shuffle(CardsInPlayerTomb, CardsInPlayerLibrary);
         }
-        else if (info = PlayerInfo.Enemy)
+        else if (info == PlayerInfo.Enemy)
         {
             Shuffle(CardsInEnemyTomb, CardsInEnemyLibrary);
         }

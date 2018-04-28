@@ -11,9 +11,13 @@ public class CardsContainer : MonoBehaviour {
     float movingTime = 0.6f;
     float xRightBorder = 0f;
 
-
+    /// <summary>
+    /// 添加卡，用于发牌、出牌
+    /// </summary>
+    /// <param name="list">List.</param>
+    /// <param name="card">Card.</param>
+    /// <param name="startPos">Start position.</param>
     public void AddCard(List<GameObject> list, GameObject card,Vector3 startPos){
-        Debug.Log("cd = " + cd);
         if (cd > 0)
             StartCoroutine(WaitForCD(list, card, startPos));
         else
@@ -30,7 +34,10 @@ public class CardsContainer : MonoBehaviour {
 
 
     void Add(List<GameObject> container, GameObject card,Vector3 startPos){
-        card.transform.position = startPos;
+        //设定卡牌初始状态
+        Transform p = GetComponentInParent<Canvas>().transform;
+        card.transform.SetParent(p);
+        card.transform.localPosition = startPos;
 
         //1. 1生成1个空物体占位置
         GameObject g = Instantiate(Resources.Load("Prefab/emptycard")) as GameObject;
@@ -49,12 +56,12 @@ public class CardsContainer : MonoBehaviour {
     }
 
 
-    IEnumerator WaitToAdd(GameObject g,List<GameObject> container,int index){
-        yield return new WaitForSeconds(1f);
+    IEnumerator WaitToAdd(GameObject g,List<GameObject> targetList,int index){
+        yield return new WaitForSeconds(movingTime);
 
         //g = Cards[Cards.Count - 1];//这个可能存在风险
         DestroyImmediate(g);
-        container[index].transform.SetParent(transform);
+        targetList[index].transform.SetParent(transform);
         cd -= movingTime;
     }
 
@@ -65,12 +72,23 @@ public class CardsContainer : MonoBehaviour {
     }
 
 
-    //等待处理
+    /// <summary>
+    /// 移除卡，用于弃牌、清除场上卡牌
+    /// </summary>
+    /// <param name="targetList">Target list.</param>
+    /// <param name="card">Card.</param>
+    /// <param name="endPos">End position.</param>
     public void MoveAway(List<GameObject> targetList, GameObject card,Vector3 endPos){
-        targetList.Add(card);
+        Transform p = GetComponentInParent<Canvas>().transform;
+        card.transform.SetParent(p);
+        card.transform.DOLocalMove(endPos, movingTime);
+        StartCoroutine(WaitToAdd(card, targetList));
     }
         
-
+    IEnumerator WaitToAdd(GameObject g,List<GameObject> targetList){
+        yield return new WaitForSeconds(movingTime);
+        targetList.Add(g);
+    }
 
 
 }
