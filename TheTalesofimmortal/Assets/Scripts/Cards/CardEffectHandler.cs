@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CardEffectHandler {
+	public CardEffectHandler(){
+	}
+
 	//1.治疗,返回实际加血量
     int Heal(Player attacker, string param,Target target){
 		int value = int.Parse (param);
@@ -21,7 +24,7 @@ public class CardEffectHandler {
 		//虚弱
 		value -= attacker.Weak;
 		//易伤
-        value+=target.Sunder;
+		value+=target.Sunder;
 		//减伤盾
         value -= target.Armor;
 		//物理减免
@@ -164,7 +167,7 @@ public class CardEffectHandler {
 		return count;
 	}
 
-    //42. 将特定卡加至手牌
+    //42. 将特定卡加至目标手牌
     int AddCardToHand(Player attacker,string param,Target target){
         Player dealer = (Player)target;
         
@@ -173,16 +176,16 @@ public class CardEffectHandler {
         int count = 1;
 		if (param.Contains ("|")) {
 			string[] s = param.Split ('|');
-			card.Init (int.Parse (s [0]));
+			card.Init (int.Parse (s [0]),(Player)target);
 			count = int.Parse (s [1]);
 		} else {
-			card.Init (int.Parse (param));
+			card.Init (int.Parse (param),(Player)target);
 		}
         dealer.AddCardToHand(card,count);
         return count;
     }
 
-    //43. 将特定卡加至牌库
+    //43. 将特定卡加到目标牌库
     int AddCardToLibrary(Player attacker,string param,Target target){
         Player dealer = (Player)target;
 		GameObject g = Resources.Load ("card") as GameObject;
@@ -191,11 +194,11 @@ public class CardEffectHandler {
         if (param.Contains("|"))
         {
             string[] s = param.Split('|');
-			card.Init(int.Parse(s[0]));
+			card.Init(int.Parse(s[0]),(Player)target);
             count = int.Parse(s[1]);
         }
         else
-            card.Init(int.Parse(param));
+			card.Init(int.Parse(param),(Player)target);
         dealer.AddCardToLibrary(card,count);
         return count;
     }

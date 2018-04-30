@@ -62,8 +62,9 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
 		//3.2 检测落点的区域属性,并根据区域判定卡牌效果
         RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up);
 		if (hit.collider == null) {
-            //Do nothing.
+			Debug.Log ("Cannot find collider!");
 		} else {
+			Debug.Log ("Collider Name " + hit.collider.gameObject.name);
             Action(hit.collider.gameObject.name);
 		}
 
