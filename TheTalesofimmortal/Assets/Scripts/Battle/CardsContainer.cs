@@ -39,7 +39,7 @@ public class CardsContainer : MonoBehaviour {
         card.transform.SetParent(p);
         card.transform.localPosition = startPos;
 
-        //1. 1生成1个空物体占位置
+//        1. 1生成1个空物体占位置
         GameObject g = Instantiate(Resources.Load("Prefab/emptycard")) as GameObject;
         g.transform.SetParent(transform);
 
@@ -56,7 +56,7 @@ public class CardsContainer : MonoBehaviour {
     }
 
 
-    IEnumerator WaitToAdd(GameObject g,List<GameObject> targetList,int index){
+    IEnumerator WaitToAdd(GameObject g, List<GameObject> targetList,int index){
         yield return new WaitForSeconds(movingTime);
 
         //g = Cards[Cards.Count - 1];//这个可能存在风险
@@ -66,6 +66,7 @@ public class CardsContainer : MonoBehaviour {
     }
 
     void AdjustBorder(int count){
+		Debug.Log (count);
         float x = Mathf.Min(1120f, count * 150f);
         GetComponent<RectTransform>().sizeDelta = new Vector2(x, 256.5f);
         xRightBorder = x / 2f;
@@ -88,6 +89,7 @@ public class CardsContainer : MonoBehaviour {
     IEnumerator WaitToAdd(GameObject g,List<GameObject> targetList){
         yield return new WaitForSeconds(movingTime);
         targetList.Add(g);
+		g.SetActive (false);
     }
 
 

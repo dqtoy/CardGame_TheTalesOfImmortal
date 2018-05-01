@@ -13,6 +13,7 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
 { 
 
     public Image frameImage;
+	public Player owner;
 
 	private GameObject navigator;
 	private Vector3 lastPos;
@@ -28,6 +29,8 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
 	//1. 选中卡牌
 	public void OnPointerDown(PointerEventData eventData) 
 	{ 
+		if (!owner.TurnOn)
+			return;
 		//1.1 初始化导航器
 		navigator = new GameObject ();
 		navigator.transform.SetParent (transform);
@@ -45,6 +48,8 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
 	//2. 拖拽卡牌
     public void OnDrag(PointerEventData eventData) 
     { 
+		if (!owner.TurnOn)
+			return;
 		//2.1 根据鼠标当前位置更新箭头位置
 		Vector3 v = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
 		navigator.transform.position = v;
@@ -55,6 +60,8 @@ public class DragDropItem : MonoBehaviour,IDragHandler,IPointerDownHandler,IPoin
 	//3. 释放拖拽
     public void OnPointerUp(PointerEventData eventData) 
     { 
+		if (!owner.TurnOn)
+			return;
 		Debug.Log ("PointerUp!");
         //3.1 释放卡牌，取消点按的特效
         frameImage.gameObject.SetActive(false);

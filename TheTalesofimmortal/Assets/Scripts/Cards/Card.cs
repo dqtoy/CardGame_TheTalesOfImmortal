@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class Card : DragDropItem {
 	public CardData data;
-    public Player owner;
 	public Image profile;
+
 	public void Init(int cardId,Player player){
 		data = LoadConfigs.ReadCardData (cardId);
 		owner = player;

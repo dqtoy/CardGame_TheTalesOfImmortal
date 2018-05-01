@@ -44,6 +44,8 @@ public class TargetArrow : MonoBehaviour {
 		arrow.gameObject.SetActive (false);
 		arrow.sizeDelta = new Vector2 (arrow.sizeDelta.x, 5f);
 		isOn = false;
+		if (lastHover != null)
+			lastHover.Recover ();
 	}
 
 	public void UpdateArrow(Vector3 basePos,Vector3 targetPos){

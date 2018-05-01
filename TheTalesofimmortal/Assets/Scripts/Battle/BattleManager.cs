@@ -56,15 +56,33 @@ public class BattleManager : MonoBehaviour {
         _enemy.Init();
 
         //开始第一回合
+		BattleStart();
     }
 
     void BattleStart(){
         //判断是否是玩家先手
-        if (true)
-        {
-            _player.StartRound();
-        }
+		if (_enemy.Name!="先手") {
+			_player.StartRound ();
+			battleView.UpdateEndRound (true);
+		} else {
+			_enemy.StartRound ();
+			battleView.UpdateEndRound (false);
+		}
     }
+
+
+	//下面两段可以合并
+	public void EndRound(){
+		battleView.ClearPlayedArea (PlayerInfo.Player);
+		_enemy.StartRound ();
+		battleView.UpdateEndRound (false);
+	}
+
+	void EnemyEndRound(){
+		battleView.ClearPlayedArea (PlayerInfo.Enemy);
+		_player.StartRound ();
+		battleView.UpdateEndRound (true);
+	}
 
 
 	public bool CanPlay(Player dealer, CardData card){
@@ -73,6 +91,7 @@ public class BattleManager : MonoBehaviour {
 
 
 	public void PlayCard(Player attacker,Target defender,Card card){
+		battleView.PlayCard (card.owner.Info, card.gameObject);
 		foreach (CardEffect effect in card.data.Effects) {
 			ExcuteCardEffect (attacker, defender, effect);
             //CheckIsPlayerDead

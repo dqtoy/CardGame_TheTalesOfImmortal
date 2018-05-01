@@ -5,6 +5,7 @@ using UnityEngine;
 public class Target
 {
     public PlayerInfo Info;
+	public string Name = "";
     public int HP;
     public int HpMax;
 

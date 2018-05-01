@@ -13,6 +13,7 @@ public class BattleView : MonoBehaviour {
     public PuppetContainer PlayerPuppets;
     public PuppetContainer EnemyPuppets;
     public Text EnemyHand;
+	public Button EndRound;
 
     private List<GameObject> CardsInPlayerHand = new List<GameObject>();
     private List<GameObject> CardsInPlayerLibrary = new List<GameObject>();
@@ -44,7 +45,7 @@ public class BattleView : MonoBehaviour {
     }
 
     public void PlayCard(PlayerInfo info,GameObject card){
-        CardsPlayed.Add(card);
+//        CardsPlayed.Add(card);
         Vector3 startPos = new Vector3(733, 400, 0);
         if (info == PlayerInfo.Player)
         {
@@ -116,6 +117,10 @@ public class BattleView : MonoBehaviour {
 
 	public void ExitBattle(){
 
+	}
+
+	public void UpdateEndRound(bool isOn){
+		EndRound.interactable = isOn;
 	}
 
 	void DestroyList(List<GameObject> l){

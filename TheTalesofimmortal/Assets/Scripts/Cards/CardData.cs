@@ -13,6 +13,9 @@ public class CardData {
 	public CardType Type;
 	public CardPlayCondition Condition;
 	public CardEffect[] Effects;
+
+	public int DefaultTarget;//默认目标 0敌人 1自己 2敌方召唤物	3我方召唤物  (召唤物默认选第1个)
+	public int PRI;//优先级 数字越大越优先 不满足条件直接置0
 }
 
 public enum CardType{

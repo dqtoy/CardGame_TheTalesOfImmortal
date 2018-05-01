@@ -63,9 +63,18 @@ public class Player:Target{
 		}
 
 		//打开发牌状态
-		TurnOn=true;
+		MyTurn();
 	}
 
+	void MyTurn(){
+		TurnOn=true;
+		if (Info == PlayerInfo.Enemy)
+			AIPlay ();
+	}
+
+	void AIPlay(){
+		Debug.Log ("AIPlaying...");
+	}
 
 	public void DrawCards(int count){
 		for (int i = 0; i < count; i++) {
