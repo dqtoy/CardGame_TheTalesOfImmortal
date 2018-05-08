@@ -1,2 +1,2 @@
-﻿id,Name,Description,Price,Level,MaxLevel,MpCost,Type,Condition,Effects
-100,物理攻击,造成1点外功伤害。,1,1,1,0,0,0,1000
+﻿id,Name,Description,Price,Level,MaxLevel,MpCost,Type,Condition,Effects,Target,PRI
+100,物理攻击,造成1点外功伤害。,1,1,1,0,0,0,1000,0,1

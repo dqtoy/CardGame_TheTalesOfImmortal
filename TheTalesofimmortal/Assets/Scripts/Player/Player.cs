@@ -66,15 +66,12 @@ public class Player:Target{
 		MyTurn();
 	}
 
+
+    //这一部分直接放到manager里
 	void MyTurn(){
 		TurnOn=true;
-		if (Info == PlayerInfo.Enemy)
-			AIPlay ();
 	}
-
-	void AIPlay(){
-		Debug.Log ("AIPlaying...");
-	}
+        
 
 	public void DrawCards(int count){
 		for (int i = 0; i < count; i++) {

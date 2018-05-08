@@ -15,6 +15,7 @@ public class BattleView : MonoBehaviour {
     public Text EnemyHand;
 	public Button EndRound;
 
+    //下面这一堆，好像用不着
     private List<GameObject> CardsInPlayerHand = new List<GameObject>();
     private List<GameObject> CardsInPlayerLibrary = new List<GameObject>();
     private List<GameObject> CardsInPlayerTomb = new List<GameObject>();
@@ -90,6 +91,28 @@ public class BattleView : MonoBehaviour {
                 PlayedContainer.MoveAway(CardsInEnemyTomb, CardsPlayed[0], new Vector3(-733, 365, 0));
             }
             CardsPlayed.RemoveAt(0);
+        }
+    }
+
+    public void PlayerDiscardAll(Player player){
+        while (player.Hands.Count > 0)
+        {
+            PlayerHandContainer.MoveAway(CardsInPlayerTomb, player.Hands[0].gameObject, new Vector3(-733, -175, 0));
+            player.Graveyard.Add(player.Hands[0]);
+
+            player.Hands.RemoveAt(0);
+            CardsInPlayerHand.RemoveAt(0);
+        }
+    }
+
+    //To Do 展示效果
+    public void EnemyDiscardAll(Player enemy){
+        while (enemy.Hands.Count > 0)
+        {
+            enemy.Graveyard.Add(enemy.Hands[0]);
+            CardsInEnemyTomb.Add(enemy.Hands[0].gameObject);
+            CardsInEnemyHand.RemoveAt(0);
+            enemy.Hands.RemoveAt(0);
         }
     }
 

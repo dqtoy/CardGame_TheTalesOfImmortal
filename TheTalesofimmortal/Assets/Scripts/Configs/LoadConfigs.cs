@@ -29,6 +29,8 @@ public class LoadConfigs  {
             c.Condition = (CardPlayCondition)int.Parse(ReadTxt.GetDataByRowAndCol(strs, i + 1, 8));
             int[] effectId = ReadString.GetInts(ReadTxt.GetDataByRowAndCol(strs, i + 1, 9));
             c.Effects = ReadCardEffect(effectId);
+            c.DefaultTarget = int.Parse(ReadTxt.GetDataByRowAndCol (strs, i + 1, 10));
+            c.PRI = int.Parse(ReadTxt.GetDataByRowAndCol (strs, i + 1, 11));
             return c;
         }
         Debug.Log("Cannot find CardData where id = " + id);

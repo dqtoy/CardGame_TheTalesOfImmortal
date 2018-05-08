@@ -67,29 +67,35 @@ public class BattleManager : MonoBehaviour {
 		} else {
 			_enemy.StartRound ();
 			battleView.UpdateEndRound (false);
+            StartEnemyAI();
 		}
     }
 
-
 	//下面两段可以合并
-	public void EndRound(){
+	public void PlayerEndRound(){
 		battleView.ClearPlayedArea (PlayerInfo.Player);
 		_enemy.StartRound ();
 		battleView.UpdateEndRound (false);
+        StartEnemyAI();
 	}
 
-	void EnemyEndRound(){
+	public void EnemyEndRound(){
+        battleView.EnemyDiscardAll(_enemy);
 		battleView.ClearPlayedArea (PlayerInfo.Enemy);
 		_player.StartRound ();
 		battleView.UpdateEndRound (true);
 	}
 
 
-	public bool CanPlay(Player dealer, CardData card){
+    void StartEnemyAI(){
+        AIPlay ai = new AIPlay(_enemy, _player, this);
+        ai.PlayInOrder();
+    }
+
+	public bool CanPlay(Player dealer, CardData data){
 		return true;
 	}
-
-
+        
 	public void PlayCard(Player attacker,Target defender,Card card){
 		battleView.PlayCard (card.owner.Info, card.gameObject);
 		foreach (CardEffect effect in card.data.Effects) {
@@ -98,8 +104,7 @@ public class BattleManager : MonoBehaviour {
             //CheckIsTargetDead
 		}
 	}
-
-    //这里的defender要改为target
+        
 	int ExcuteCardEffect(Player attacker,Target defender,CardEffect effect){
 		if (effect.Type == CardEffectType.None)
 			return 0;
@@ -149,4 +154,8 @@ public class BattleManager : MonoBehaviour {
 		return null;
 	}
 
+
+    public void AIPlay(Player attacker,Player defender){
+        
+    }
 }
