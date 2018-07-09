@@ -120,13 +120,22 @@ public class BattleManager : MonoBehaviour {
 
 		return result;
 	}
+        
+    /// <summary>
+    /// 弃牌
+    /// </summary>
+    /// <param name="player">Player.</param>
+    /// <param name="c">C.</param>
+    public void Discard(Player player,Card card){
+        battleView.DiscardCard(player.Info, card.gameObject);
+    }
 		
     public void DrawCardTest(int count){
         _player.DrawCards(count);
     }
 
 	public Target GetTarget(string param){
-		switch (param) {
+        switch (param) {
 			case "PlayZone":
 				return _enemy as Target;
 			case "Player":
@@ -140,7 +149,7 @@ public class BattleManager : MonoBehaviour {
 
 	Target GetPuppet(string param){
 		if (!param.Contains ("P")) {
-			return null;
+            return _enemy;
 		}
 		byte[] b = System.Text.Encoding.Default.GetBytes (param);
 		int index = (int)b [2];
@@ -151,11 +160,13 @@ public class BattleManager : MonoBehaviour {
 			if (_player.Puppets.Count > index)
 				return _player.Puppets [index] as Target;
 		} 
-		return null;
+		return _enemy;
 	}
 
 
     public void AIPlay(Player attacker,Player defender){
         
     }
+
+
 }

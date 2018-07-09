@@ -66,7 +66,6 @@ public class CardsContainer : MonoBehaviour {
     }
 
     void AdjustBorder(int count){
-		Debug.Log (count);
         float x = Mathf.Min(1120f, count * 150f);
         GetComponent<RectTransform>().sizeDelta = new Vector2(x, 256.5f);
         xRightBorder = x / 2f;

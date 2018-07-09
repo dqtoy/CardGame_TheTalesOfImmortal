@@ -20,12 +20,23 @@ public class Card : DragDropItem {
             Debug.Log("Can not play card : " + data.Name);
             return;
         }
-        //出牌
-		Target target = manager.GetTarget(param);
-		if (target == null) {
-			Debug.Log ("Can not find Target with param " + param);
-			return;
-		}
-		manager.PlayCard (owner, target, this);
+
+        //弃牌
+        if (param == "DropZone")
+        {
+            manager.Discard(owner, this);
+            Debug.Log("Drop Card : " + data.Name);
+        }
+        else
+        {
+            //出牌
+            Target target = manager.GetTarget(param);
+            if (target == null)
+            {
+                Debug.Log("Can not find Target with param " + param);
+                return;
+            }
+            manager.PlayCard(owner, target, this);
+        }
     }
 }

@@ -116,6 +116,10 @@ public class BattleView : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 洗牌
+    /// </summary>
+    /// <param name="info">Info.</param>
     public void Shuffle(PlayerInfo info){
         if (info == PlayerInfo.Player)
         {
