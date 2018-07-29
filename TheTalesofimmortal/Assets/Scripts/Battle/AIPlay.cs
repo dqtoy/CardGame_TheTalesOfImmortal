@@ -12,9 +12,20 @@ public class AIPlay
     public AIPlay(Player attacker,Player defender,BattleManager manager){
         this.attacker = attacker;
         this.defender = defender;
+		this.manager = manager;
     }
 
     public void PlayInOrder(){
+		Debug.Log ("Play in order");
+		if (attacker.Info == PlayerInfo.Player)
+		{
+			manager.PlayerEndRound();
+		}
+		else
+		{
+			manager.EnemyEndRound();
+		}
+		return;
         if (cd > 0)
             WaitingToPlay();
         else
