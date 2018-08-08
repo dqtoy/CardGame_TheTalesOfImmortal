@@ -27,8 +27,8 @@ public class BattleView : MonoBehaviour {
 
 
     public void Init(Player player,Player enemy){
-        playerView.Init(player);
-        enemyView.Init(enemy);
+        playerView.UpdatePlayerView(player);
+        enemyView.UpdatePlayerView(enemy);
 	}
 
 

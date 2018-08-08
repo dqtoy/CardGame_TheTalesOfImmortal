@@ -12,7 +12,7 @@ public class PlayerView : TargetView {
 	public Button[] Buffs;
 	public Image ProfileImage;
 
-    public void Init(Player player){
+    public void UpdatePlayerView(Player player){
         UpdateProfile("HeadImage/hero1");
         UpdateHp(player.HP, player.HpMax);
         UpdateMp(player.MP);
@@ -22,7 +22,6 @@ public class PlayerView : TargetView {
     public override void UpdateProfile(string path){
         ProfileImage.sprite = Resources.Load(path,typeof(Sprite)) as Sprite;
     }
-
 
     public override void UpdateHp(int hp,int maxHp){
         HpSlider.value = hp / maxHp;
