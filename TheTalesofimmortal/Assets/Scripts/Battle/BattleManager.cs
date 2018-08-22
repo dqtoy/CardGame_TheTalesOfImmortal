@@ -45,10 +45,18 @@ public class BattleManager : MonoBehaviour {
         _player = new Player(PlayerInfo.Player, 100, 100, 5, PlayerLib, battleView.playerView,battleView);
         _enemy = new Player(PlayerInfo.Enemy, 100, 100, 5, EnemyLib, battleView.enemyView, battleView);
 
-		foreach (Card c in PlayerLib)
-			c.Init (100, _player);
-		foreach (Card c in EnemyLib)
-			c.Init (100, _enemy);
+        foreach (Card c in PlayerLib)
+        {
+            int r = UnityEngine.Random.Range(0, TempConfigs.CardList.Length - 1);
+            c.Init (TempConfigs.CardList[r], _player);
+        }
+			
+        foreach (Card c in EnemyLib)
+        {
+            int r = UnityEngine.Random.Range(0, TempConfigs.CardList.Length - 1);
+            c.Init (TempConfigs.CardList[r], _enemy);
+        }
+			
 
         //初始化战场
         battleView.Init(_player,_enemy);

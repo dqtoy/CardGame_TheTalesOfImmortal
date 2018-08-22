@@ -9,6 +9,7 @@ public class CardData {
 
     public int Level;
     public int MaxLevel;
+    public int ActionCost;
     public int MpCost;
 	public CardType Type;
 	public CardPlayCondition Condition;
