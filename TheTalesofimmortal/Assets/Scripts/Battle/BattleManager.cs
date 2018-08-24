@@ -42,8 +42,8 @@ public class BattleManager : MonoBehaviour {
 		}
 
         //初始化角色
-        _player = new Player(PlayerInfo.Player, 100, 100, 5, PlayerLib, battleView.playerView,battleView);
-        _enemy = new Player(PlayerInfo.Enemy, 100, 100, 5, EnemyLib, battleView.enemyView, battleView);
+        _player = new Player(PlayerInfo.Player, 100, 100, 5,5, PlayerLib, battleView.playerView,battleView);
+        _enemy = new Player(PlayerInfo.Enemy, 100, 100, 5,5, EnemyLib, battleView.enemyView, battleView);
 
         foreach (Card c in PlayerLib)
         {

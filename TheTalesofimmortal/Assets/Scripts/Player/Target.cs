@@ -10,6 +10,7 @@ public class Target
     public int HpMax;
 
     public int MP = 1;
+    public int ActPoint = 5;
     public int Shield;
     public int Armor = 0;
     public int PhysicalReduction = 0;
@@ -54,6 +55,18 @@ public class Target
         return v;
     }
         
+
+    //这部分还没有展示
+    public int AddActPoint(int value){
+        ActPoint += value;
+        return value;
+    }
+
+    public int CostActPoint(int value){
+        int v = Mathf.Min(value, ActPoint);
+        ActPoint -= value;
+        return v;
+    }
 
 }
 

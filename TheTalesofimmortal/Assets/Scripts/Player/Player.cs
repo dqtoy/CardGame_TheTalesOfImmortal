@@ -14,11 +14,12 @@ public class Player:Target{
     private BattleView BattleField;
 
 
-    public Player(PlayerInfo info, int hp,int hpMax,int initMana,List<Card> library,PlayerView view,BattleView battleview){
+    public Player(PlayerInfo info, int hp,int hpMax,int initMana,int initActPoint,List<Card> library,PlayerView view,BattleView battleview){
         Info = info;
         HP = hp;
         HpMax = hpMax;
         MP = initMana;
+        ActPoint = initActPoint;
         Buffs = new List<CardBuff>();
         Library = library;
         Hands = new List<Card>();

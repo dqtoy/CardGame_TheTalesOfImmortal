@@ -113,7 +113,7 @@ public class CardEffectHandler {
 	}
         
 
-	//12. 清除敌人魔法
+	//12. 清除内力
     int ClearMana(Player attacker,string param,Target target){
         int value = target.MP;
         target.DamageMp(value);
@@ -132,16 +132,12 @@ public class CardEffectHandler {
         target.Poison += value;
         return value;
     }
+    //清除debuff并根据清除数量造成伤害
 
 	//30. 召唤
     int Summon(Player attacker,string param,Target target){
         Player dealer = (Player)target;
-		string[] s;
-		if (param.Contains ("|")) {
-			s = param.Split ('|');
-		} else {
-			s = new string[]{ param };
-		}
+        string[] s = SplitParam(param);
 		for (int i = 0; i < s.Length; i++) {
 			Puppet p = new Puppet (int.Parse (s [i]));
 			dealer.Puppets.Add (p);
@@ -174,13 +170,10 @@ public class CardEffectHandler {
 		GameObject g = Resources.Load ("card") as GameObject;
 		Card card = g.GetComponent<Card> ();
         int count = 1;
-		if (param.Contains ("|")) {
-			string[] s = param.Split ('|');
-			card.Init (int.Parse (s [0]),(Player)target);
+        string[] s = SplitParam(param);
+        card.Init (int.Parse (s[0]),(Player)target);
+        if (s.Length>1) 
 			count = int.Parse (s [1]);
-		} else {
-			card.Init (int.Parse (param),(Player)target);
-		}
         dealer.AddCardToHand(card,count);
         return count;
     }
@@ -191,14 +184,11 @@ public class CardEffectHandler {
 		GameObject g = Resources.Load ("card") as GameObject;
 		Card card = g.GetComponent<Card> ();
         int count = 1;
-        if (param.Contains("|"))
-        {
-            string[] s = param.Split('|');
-			card.Init(int.Parse(s[0]),(Player)target);
-            count = int.Parse(s[1]);
-        }
-        else
-			card.Init(int.Parse(param),(Player)target);
+
+        string[] s = SplitParam(param);
+        card.Init (int.Parse (s[0]),(Player)target);
+        if (s.Length>1) 
+            count = int.Parse (s [1]);
         dealer.AddCardToLibrary(card,count);
         return count;
     }
@@ -230,6 +220,125 @@ public class CardEffectHandler {
         KillPuppet(dealer, count);
 		return 0;
 	}
+
+    //80. 增加行动点
+    int AddActPoint(Player attacker,string param,Target target){
+        int value = int.Parse(param);
+        value = attacker.AddActPoint(value);
+        return value;
+    }
+    //81. 减少行动点
+    int ReduceActPoint(Player attacker,string param,Target target){
+        int value = int.Parse(param);
+        value = attacker.CostActPoint(value);
+        return value;
+    }
+    //82. 清空行动点
+    int ClearActPoint(Player attacker,string param,Target target){
+        int value = attacker.ActPoint;
+        value = attacker.CostActPoint(value);
+        return value;
+    }
+
+    //200. CountDmgPhy 外功计数攻击
+    int CountDmgPhy(Player attacker,string param,Target target){
+        int basicAtk = 0;
+        int count = 0;
+        int incAtk = 1;
+        string[] s = SplitParam(param);
+        if(s.Length>=3)
+        {
+            basicAtk = int.Parse(s[0]);
+            int countType = int.Parse(s[1]);
+
+            //ToDo计数
+            count = 10;
+            incAtk = int.Parse(s[2]);
+        }
+        int dmg = basicAtk + count * incAtk;
+        return PhysicalDamage(attacker, dmg.ToString(), target);
+    }
+
+    //201. DmgCostAllAct 消耗所有行动点造成伤害
+    int DmgCostAllAct(Player attacker,string param,Target target){
+        int basicAtk = 0;
+        int incAtk = 0;
+        string[] s = SplitParam(param);
+        if (s.Length >= 2)
+        {
+            basicAtk = int.Parse(s[0]);
+            incAtk = int.Parse(s[1]);
+        }
+
+        int actionPoint = attacker.ActPoint;
+        int dmg = basicAtk + actionPoint * incAtk;
+
+        ClearActPoint(attacker, param, target);
+        return PhysicalDamage(attacker, dmg.ToString(), target);
+    }
+
+    //202. DmgCostAllShield 消耗所有格挡造成伤害
+    int DmgCostAllShield(Player attacker,string param,Target target){
+        int basicAtk = 0;
+        int incAtk = 0;
+        string[] s = SplitParam(param);
+        if (s.Length >= 2)
+        {
+            basicAtk = int.Parse(s[0]);
+            incAtk = int.Parse(s[1]);
+        }
+
+        //Todo 计数shield
+        int shieldCount = 5;
+        int dmg = basicAtk + shieldCount * incAtk;
+        //Todo 清除格挡 ClearSheild
+        return PhysicalDamage(attacker, dmg.ToString(), target);
+    }
+
+    //300. DmgMagAndHeal 内功伤害并治疗自己
+    int DmgMagAndHeal(Player attacker,string param,Target target){
+        int atk = 0;
+        int heal = 0;
+        string[] s = SplitParam(param);
+        if (s.Length >= 2)
+        {
+            atk = int.Parse(s[0]);
+            heal = int.Parse(s[1]);
+        }
+        MagicalDamage(attacker,atk.ToString(),target);
+        Heal(attacker,heal.ToString(),target);
+        return 0;
+    }
+
+    //301. DmgMagAndDraw 内功伤害并抽卡
+    int DmgMagAndDrao(Player attacker,string param,Target target){
+        int atk = 0;
+        int drawCount = 0;
+        string[] s = SplitParam(param);
+        if (s.Length >= 2)
+        {
+            atk = int.Parse(s[0]);
+            drawCount = int.Parse(s[1]);
+        }
+        MagicalDamage(attacker,atk.ToString(),target);
+        DrawCard(attacker, drawCount.ToString(), target);
+        return 0;
+    }
+
+    //13. AddMpAndDmgMag 增加内力并内功伤害
+    int AddMpAndDmgMag(Player attacker,string param,Target target){
+        int addMp = 0;
+        int atk = 0;
+        string[] s = SplitParam(param);
+        if (s.Length >= 2)
+        {
+            addMp = int.Parse(s[0]);
+            atk = int.Parse(s[1]);
+        }
+        AddMp(attacker, addMp.ToString(), target);
+        MagicalDamage(attacker,atk.ToString(),target);
+        return 0;
+    }
 
     void KillPuppet(Player target,int count){
         for (int i = 0; i < count; i++) {
@@ -408,5 +517,12 @@ public class CardEffectHandler {
 		}
 		return false;
 	}
+
+    string[] SplitParam(string param){
+        if (param.Contains("|"))
+            return param.Split('|');
+        else
+            return new string[]{param};
+    }
 
 }

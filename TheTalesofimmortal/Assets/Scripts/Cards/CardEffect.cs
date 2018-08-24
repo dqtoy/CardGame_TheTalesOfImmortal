@@ -10,31 +10,41 @@ public class CardEffect{
 	
 public enum CardEffectType{
 	None,
-	//治疗类
-	Heal,
-	//伤害类
-	PhysicalDamage,
-	MagicalDamage,
-    DirectDamage,//直接伤害
-	//内力类
-    AddMp=10,
-	ReduceMana,
-	ClearMana,
-	//Buff类
-	AddBuff=20,
+    Heal,//治疗类
+	PhysicalDamage,//外功伤害
+	MagicalDamage,//内功伤害
+    DirectDamage,//精神伤害
+
+    AddMp=10,//增加内力
+	ReduceMana,//减少内力
+	ClearMana,//清除内力
+    AddMpAndDmgMag,//增加内力并内功伤害 内力|伤害
+
+	AddBuff=20,//添加buff
 	DoublePoison,//加倍中毒，最多不超过10层
-	//召唤
-	Summon=30,//1|2 puppetId|puppetId
-	//卡牌类
-	DrawCard=40,
-	RemoveCard,
-    AddCardToHand,//id|数量
-    AddCardToLibrary,
-	//直接灭杀
-	InstantKill=50,
-	//技能
-	AddTriggerSkill=60,
-	//针对召唤物
-	KillEnemyPuppet=70,//参数 1，2，3 99所有
-	KillMyPuppet,//参数 1，2，3 99所有
+	
+	Summon=30,//召唤，1|2 puppetId|puppetId
+	
+	DrawCard=40,//抽n张卡
+	RemoveCard,//移除n张卡牌
+    AddCardToHand,//添加卡牌到手牌，id|数量
+    AddCardToLibrary,//添加卡牌到牌库
+	
+	InstantKill=50,//直接杀死
+	
+	AddTriggerSkill=60,//添加触发类技能
+	
+	KillEnemyPuppet=70,//击杀n个敌方召唤物，参数 1，2，3 99所有
+	KillMyPuppet,//击杀n个我方召唤物 参数 1，2，3 99所有
+
+    AddActPoint=80,//添加行动点
+    ClearActPoint,//清除行动点
+
+    CountDmgPhy=200,//外功计数攻击，参数：基础伤害|计数类型|每个值的伤害，0拳1剑2格挡
+    DmgCostAllAct,//消耗所有行动点造成伤害，参数：基础伤害|每行动点伤害
+    DmgCostAllShield,//消耗所有格挡造成伤害，参数：基础伤害|每点格挡造成的伤害
+
+    DmgMagAndHeal=300,//内功伤害并治疗自己 伤害|治疗
+    DmgMagAndDraw,//内功伤害并抽卡
+
 }
