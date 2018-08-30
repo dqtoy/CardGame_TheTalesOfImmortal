@@ -441,14 +441,14 @@ public class CardEffectHandler {
 				target.Weak += layer;
 				target.Buffs.Add (new CardBuff (CardBuffType.Weak, layer, duration));
 				break;
-			case CardBuffType.Acceleration:
-				target.Acceleration += layer;
-				target.Buffs.Add (new CardBuff (CardBuffType.Acceleration, layer, duration));
-				break;
-			case CardBuffType.Deceleration:
-				target.Deceleration += layer;
-				target.Buffs.Add (new CardBuff (CardBuffType.Deceleration, layer, duration));
-				break;
+//			case CardBuffType.Acceleration:
+//				target.Acceleration += layer;
+//				target.Buffs.Add (new CardBuff (CardBuffType.Acceleration, layer, duration));
+//				break;
+//			case CardBuffType.Deceleration:
+//				target.Deceleration += layer;
+//				target.Buffs.Add (new CardBuff (CardBuffType.Deceleration, layer, duration));
+//				break;
 			case CardBuffType.Rebound:
 				target.Rebound += layer;
 				target.Buffs.Add (new CardBuff (CardBuffType.Rebound, layer, duration));
@@ -461,6 +461,20 @@ public class CardEffectHandler {
 				target.DamageToMana = true;
 				target.Buffs.Add (new CardBuff (CardBuffType.DamageToMana, layer, duration));
 				break;
+            case CardBuffType.DamageAddMana:
+                break;
+            case CardBuffType.DamageAddAtk:
+                break;
+            case CardBuffType.CostNoMana:
+                break;
+            case CardBuffType.DoubleAtkOnce:
+                break;
+            case CardBuffType.DoubleAtk:
+                break;
+            case CardBuffType.AddAtk:
+                break;
+            case CardBuffType.Expensive:
+                break;
 			default:
 				Debug.Log ("Can not find CardBuffType!");
 				break;

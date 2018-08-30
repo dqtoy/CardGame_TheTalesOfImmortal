@@ -23,11 +23,15 @@ public enum CardBuffType{
 	HealPerRound,//每回合结束回血 类型|层数|持续回合
 	Poison,//中毒 类型|层数
 	Sunder,//易伤 类型|层数|持续回合
-	Weak,//虚弱 类型|层数|持续回合
-	Acceleration,//加速 类型|层数|持续回合
-	Deceleration,//减速 类型|层数|持续回合
-	Rebound,//荆棘,物理反伤 类型|层数|持续回合
+	Weak,//虚弱，降低攻击 类型|层数|持续回合
+	Rebound,//荆棘,反伤 类型|层数|持续回合
 	Dodge,//闪避，闪避内伤和外伤 类型|层数|持续回合
-    DamageToMana,//内力护盾
-    //伤转攻
+    DamageToMana,//内力护盾，到下回合受伤由内力承担，直到内力耗尽
+    DamageAddMana,//受到伤害转换为内力
+    DamageAddAtk,//受到伤害转换为攻
+    CostNoMana,//本回合不消耗内力
+    DoubleAtkOnce,//下次攻击翻倍
+    DoubleAtk,//本回合攻击翻倍
+    AddAtk,//伤害增强，持续到本场战斗结束，类型|值
+    Expensive,//所有内力攻击消耗+2，效果翻倍
 }
