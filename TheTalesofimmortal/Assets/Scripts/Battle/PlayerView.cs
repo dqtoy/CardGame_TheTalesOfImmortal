@@ -33,6 +33,7 @@ public class PlayerView : TargetView {
         MpText.text = mp.ToString();
     }
 
+    //需要记下buff的顺序来
     public override void UpdateBuffs(Target t){
 
 

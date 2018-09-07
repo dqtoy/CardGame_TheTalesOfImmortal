@@ -21,10 +21,35 @@ public class CardEffectHandler {
 		}
 
 		int value = int.Parse (param);
+
+        //增加攻击
+        value += attacker.AddAtk;
+
+        //双倍伤害
+        if(attacker.DoubleAtkOnce>0){
+            value *= Mathf.Pow(2, attacker.DoubleAtkOnce);
+
+            //这部分要改成removebuff来处理
+            attacker.DoubleAtkOnce = 0;
+            attacker.View.UpdateBuffs(attacker as Target);
+        }
+        if (attacker.DoubleAtk > 0)
+        {
+            value *= Mathf.Pow(2, attacker.DoubleAtk);
+
+            //这部分要改成removebuff来处理
+            attacker.DoubleAtkOnce = 0;
+            attacker.View.UpdateBuffs(attacker as Target);
+        }
+        if (attacker.Expensive)
+        {
+            value *= 2;
+        }
+
 		//虚弱
 		value -= attacker.Weak;
 		//易伤
-		value+=target.Sunder;
+		value += target.Sunder;
 		//减伤盾
         value -= target.Armor;
 		//物理减免
@@ -51,10 +76,24 @@ public class CardEffectHandler {
         if (value > 0)
             target.Damage(value);
 
+        //受攻击加内力
+        if (target.BeAtkAddMana)
+        {
+            target.HealMp(1);
+        }
+
+        //累计受到的伤害加攻击，结算时机有问题。而且过于强大，如果一定要加，需要增加概率，并且修改AddAtk结算时机。
+        //这个方案如果做成累计受到的所有伤害增加攻击，会被恶意刷。
+//        if (target.DamageAddAtk)
+//        {
+//            
+//            target.AddAtk++;
+//        }
+
 		return value;
 	}
 
-	//3. 对敌人内伤
+	//3. 内伤
     int MagicalDamage(Player attacker,string param,Target target){
 
 		//闪避
@@ -64,10 +103,30 @@ public class CardEffectHandler {
 
 		int value = int.Parse (param);
 
+        //增加攻击
+        value += attacker.AddAtk;
+
+        //双倍伤害
+        if(attacker.DoubleAtkOnce>0){
+            value *= Mathf.Pow(2, attacker.DoubleAtkOnce);
+
+            //这部分要改成removebuff来处理
+            attacker.DoubleAtkOnce = 0;
+            attacker.View.UpdateBuffs(attacker as Target);
+        }
+        if (attacker.DoubleAtk > 0)
+        {
+            value *= Mathf.Pow(2, attacker.DoubleAtk);
+
+            //这部分要改成removebuff来处理
+            attacker.DoubleAtkOnce = 0;
+            attacker.View.UpdateBuffs(attacker as Target);
+        }
+
 		//虚弱
 		value -= attacker.Weak;
 		//易伤
-        value+=target.Sunder;
+        value += target.Sunder;
 		//减伤盾
         value -= target.Armor;
 		//魔法减免
@@ -87,6 +146,12 @@ public class CardEffectHandler {
 		//造成伤害
 		if (value > 0)
             target.Damage(value);
+
+        //受攻击加内力
+        if (target.BeAtkAddMana)
+        {
+            target.HealMp(1);
+        }
 
 		return value;
 	}
@@ -363,7 +428,7 @@ public class CardEffectHandler {
             target.Shield -= damage;
 		} else {
             damage -= target.Shield;
-			//Remove ShieldView
+            target.View.UpdateBuffs();
 		}
 	}
         
@@ -392,21 +457,19 @@ public class CardEffectHandler {
 
     void ExcuteAddBuff(Target target,string param){
         CardBuffType buff;
-		int layer = 0;
-		int duration = 0;
+		int layer = 1;
         if (param.Contains("|"))
         {
             string[] s = param.Split('|');
             buff = (CardBuffType)(int.Parse(s[0]));
             layer = int.Parse(s[1]);
-			if (s.Length > 2)
-				duration = int.Parse (s [2]);
         }
         else
         {
             buff = (CardBuffType)(int.Parse(param));
         }
 
+        bool isBuffExist = false;
         switch (buff)
         {
 			case CardBuffType.None:
@@ -416,30 +479,24 @@ public class CardEffectHandler {
 				break;
 			case CardBuffType.Armor:
 				target.Armor += layer;
-				target.Buffs.Add (new CardBuff (CardBuffType.Armor, layer, duration));
                 break;
 			case CardBuffType.PhysicalReduction:
 				target.PhysicalReduction = MathCalculation.PropDecayIncrease (target.PhysicalReduction, layer);
-				target.Buffs.Add (new CardBuff (CardBuffType.PhysicalReduction, layer, duration));
                 break;
             case CardBuffType.MagicalReduction:
 				target.MagicalReduction = MathCalculation.PropDecayIncrease (target.MagicalReduction, layer);
-				target.Buffs.Add (new CardBuff (CardBuffType.MagicalReduction, layer, duration));
                 break;
 			case CardBuffType.HealPerRound:
 				target.HealPerRound += layer;
-				target.Buffs.Add (new CardBuff (CardBuffType.HealPerRound, layer, duration));
 				break;
 			case CardBuffType.Poison:
 				target.Poison += layer;
 				break;
 			case CardBuffType.Sunder:
 				target.Sunder += layer;
-				target.Buffs.Add (new CardBuff (CardBuffType.Sunder, layer, duration));
 				break;
 			case CardBuffType.Weak:
 				target.Weak += layer;
-				target.Buffs.Add (new CardBuff (CardBuffType.Weak, layer, duration));
 				break;
 //			case CardBuffType.Acceleration:
 //				target.Acceleration += layer;
@@ -451,32 +508,46 @@ public class CardEffectHandler {
 //				break;
 			case CardBuffType.Rebound:
 				target.Rebound += layer;
-				target.Buffs.Add (new CardBuff (CardBuffType.Rebound, layer, duration));
 				break;
 			case CardBuffType.Dodge:
 				target.Dodge = MathCalculation.PropDecayIncrease (target.Dodge, layer);
-				target.Buffs.Add (new CardBuff (CardBuffType.Dodge, layer, duration));
 				break;
-			case CardBuffType.DamageToMana:
-				target.DamageToMana = true;
-				target.Buffs.Add (new CardBuff (CardBuffType.DamageToMana, layer, duration));
+            case CardBuffType.DamageToMana:
+                isBuffExist = target.DamageToMana;
+                if (!isBuffExist)
+                    target.DamageToMana = true;
 				break;
             case CardBuffType.DamageAddMana:
+                isBuffExist = target.BeAtkAddMana;
+                if (!isBuffExist)
+                    target.BeAtkAddMana = true;
                 break;
             case CardBuffType.DamageAddAtk:
+                isBuffExist = target.DamageAddAtk;
+                if (!isBuffExist)
+                    target.DamageAddAtk = true;
                 break;
             case CardBuffType.CostNoMana:
+                isBuffExist = target.CostNoMana;
+                if (!isBuffExist)
+                    target.CostNoMana = true;
                 break;
             case CardBuffType.DoubleAtkOnce:
+                target.DoubleAtkOnce++;
                 break;
             case CardBuffType.DoubleAtk:
+                target.DoubleAtk++;
                 break;
             case CardBuffType.AddAtk:
+                target.AddAtk += layer;
                 break;
             case CardBuffType.Expensive:
+                isBuffExist = target.Expensive;
+                if (!isBuffExist)
+                    target.Expensive = true;
                 break;
-			default:
-				Debug.Log ("Can not find CardBuffType!");
+            default:
+                Debug.Log("Can not find CardBuffType : " + buff);
 				break;
         }
     }
@@ -504,12 +575,6 @@ public class CardEffectHandler {
 			case CardBuffType.Weak:
 				target.Weak -= buff.Layers;
 				break;
-			case CardBuffType.Acceleration:
-				target.Acceleration -= buff.Layers;
-				break;
-			case CardBuffType.Deceleration:
-				target.Deceleration -= buff.Layers;
-				break;
 			case CardBuffType.Rebound:
 				target.Rebound -= buff.Layers;
 				break;
@@ -517,20 +582,34 @@ public class CardEffectHandler {
 				target.Dodge = MathCalculation.PropDecayDecrease (target.Dodge, buff.Layers);
 				break;
 			case CardBuffType.DamageToMana:
-				target.DamageToMana = IsDamageToMana (target);
+                target.DamageToMana = false;
 				break;
+            case CardBuffType.DamageAddMana:
+                target.BeAtkAddMana = false;
+                break;
+            case CardBuffType.DamageAddAtk:
+                target.DamageAddAtk = false;
+                break;
+            case CardBuffType.CostNoMana:
+                target.CostNoMana = false;
+                break;
+            case CardBuffType.DoubleAtkOnce:
+                target.DoubleAtkOnce--;
+                break;
+            case CardBuffType.DoubleAtk:
+                target.DoubleAtk--;
+                break;
+            case CardBuffType.AddAtk:
+                target.AddAtk -= buff.Layers;
+                break;
+            case CardBuffType.Expensive:
+                target.Expensive = false;
+                break;
 			default:
 				break;
 		}
 	}
-
-    bool IsDamageToMana(Target target){
-		foreach(CardBuff buff in target.Buffs){
-			if (buff.Type == CardBuffType.DamageToMana)
-				return true;
-		}
-		return false;
-	}
+        
 
     string[] SplitParam(string param){
         if (param.Contains("|"))

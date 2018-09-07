@@ -106,6 +106,9 @@ public class BattleManager : MonoBehaviour {
         
 	public void PlayCard(Player attacker,Target defender,Card card){
 		battleView.PlayCard (card.owner.Info, card.gameObject);
+
+        attacker.PlayCard();
+
 		foreach (CardEffect effect in card.data.Effects) {
 			ExcuteCardEffect (attacker, defender, effect);
             //CheckIsPlayerDead

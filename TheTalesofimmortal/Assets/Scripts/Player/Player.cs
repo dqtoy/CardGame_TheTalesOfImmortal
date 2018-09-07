@@ -20,7 +20,6 @@ public class Player:Target{
         HpMax = hpMax;
         MP = initMana;
         ActPoint = initActPoint;
-        Buffs = new List<CardBuff>();
         Library = library;
         Hands = new List<Card>();
         Graveyard = new List<Card>();
@@ -52,20 +51,16 @@ public class Player:Target{
             Poison--;
 		}
 
-		//结算Duration
-		for(int i=0;i<Buffs.Count;i++){
-			Buffs [i].Duration--;
-			if (Buffs [i].Duration<=0) {
-
-				//清除效果
-				Buffs.RemoveAt (i);
-                View.UpdateBuffs(this as Target);
-			}
-		}
+		//结算只有1回合的buff
+        ClearRoundBuff();
 
 		//打开发牌状态
 		MyTurn();
 	}
+        
+        
+
+
 
 
     //这一部分直接放到manager里
@@ -114,6 +109,26 @@ public class Player:Target{
         }
 	}
 
+    public bool CanPlay(CardData card){
+        if (card.ActionCost > this.ActPoint)
+            return false;
+        if (!CostNoMana && Expensive && card.MpCost * 2 > this.MP)
+            return false;
+        return true;
+    }
+
+    public void PlayCard(CardData card){
+        if (card.ActionCost > 0)
+            CostActPoint(card.ActionCost);
+        if (!CostNoMana)
+        {
+            if (Expensive)
+                DamageMp(card.MpCost * 2);
+            else
+                DamageMp(card.MpCost);
+        }
+    }
+
 	void RemoveHand(int index){
 		if (Hands.Count <= index)
 			return;
@@ -126,6 +141,7 @@ public class Player:Target{
 		}
 		Graveyard.Clear ();
 	}
+        
 }
 
 
