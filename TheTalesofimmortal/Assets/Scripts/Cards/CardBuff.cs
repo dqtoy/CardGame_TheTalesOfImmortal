@@ -36,3 +36,4 @@ public enum CardBuffType{
     AddAtk,//伤害增强，持续到本场战斗结束，类型|值
     Expensive,//本回合所有内力攻击消耗*2，效果翻倍
 }
+	

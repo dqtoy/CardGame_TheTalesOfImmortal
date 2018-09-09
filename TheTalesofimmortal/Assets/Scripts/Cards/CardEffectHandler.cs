@@ -27,19 +27,19 @@ public class CardEffectHandler {
 
         //双倍伤害
         if(attacker.DoubleAtkOnce>0){
-            value *= Mathf.Pow(2, attacker.DoubleAtkOnce);
+			value *= (int)Mathf.Pow(2, attacker.DoubleAtkOnce);
 
             //这部分要改成removebuff来处理
             attacker.DoubleAtkOnce = 0;
-            attacker.View.UpdateBuffs(attacker as Target);
+            attacker.View.UpdateBuffShow();
         }
         if (attacker.DoubleAtk > 0)
         {
-            value *= Mathf.Pow(2, attacker.DoubleAtk);
+			value *= (int)Mathf.Pow(2, attacker.DoubleAtk);
 
             //这部分要改成removebuff来处理
             attacker.DoubleAtkOnce = 0;
-            attacker.View.UpdateBuffs(attacker as Target);
+            attacker.View.UpdateBuffShow();
         }
         if (attacker.Expensive)
         {
@@ -108,19 +108,19 @@ public class CardEffectHandler {
 
         //双倍伤害
         if(attacker.DoubleAtkOnce>0){
-            value *= Mathf.Pow(2, attacker.DoubleAtkOnce);
+			value *= (int)Mathf.Pow(2, attacker.DoubleAtkOnce);
 
             //这部分要改成removebuff来处理
             attacker.DoubleAtkOnce = 0;
-            attacker.View.UpdateBuffs(attacker as Target);
+            attacker.View.UpdateBuffShow();
         }
         if (attacker.DoubleAtk > 0)
         {
-            value *= Mathf.Pow(2, attacker.DoubleAtk);
+			value *= (int)Mathf.Pow(2, attacker.DoubleAtk);
 
             //这部分要改成removebuff来处理
             attacker.DoubleAtkOnce = 0;
-            attacker.View.UpdateBuffs(attacker as Target);
+            attacker.View.UpdateBuffShow();
         }
 
 		//虚弱
@@ -428,7 +428,7 @@ public class CardEffectHandler {
             target.Shield -= damage;
 		} else {
             damage -= target.Shield;
-            target.View.UpdateBuffs();
+			target.View.UpdateBuffShow();
 		}
 	}
         
@@ -550,6 +550,7 @@ public class CardEffectHandler {
                 Debug.Log("Can not find CardBuffType : " + buff);
 				break;
         }
+		target.View.AddBuff (buff, layer);
     }
 
 

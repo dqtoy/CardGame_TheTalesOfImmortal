@@ -110,7 +110,7 @@ public class Target
         }
 
 
-        View.UpdateBuffs(this);
+        View.UpdateBuffShow();
     }
 
 }

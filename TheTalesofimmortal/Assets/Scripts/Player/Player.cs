@@ -58,10 +58,6 @@ public class Player:Target{
 		MyTurn();
 	}
         
-        
-
-
-
 
     //这一部分直接放到manager里
 	void MyTurn(){

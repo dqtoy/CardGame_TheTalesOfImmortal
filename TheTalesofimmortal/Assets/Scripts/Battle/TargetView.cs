@@ -11,7 +11,12 @@ public class TargetView:MonoBehaviour
 
     public virtual void UpdateAtk(int atk){}
 
-    public virtual void UpdateBuffs(Target t){}
+    public virtual void UpdateBuffShow(){}
 
+	public virtual void AddBuff(CardBuffType c,int layer){
+	}
+
+	public virtual void RemoveBuff(CardBuffType c){
+	}
 }
 

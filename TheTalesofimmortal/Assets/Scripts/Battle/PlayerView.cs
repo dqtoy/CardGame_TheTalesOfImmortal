@@ -9,14 +9,22 @@ public class PlayerView : TargetView {
     public Text HpText;
     public Text HpMaxText;
 	public Text MpText;
-	public Button[] Buffs;
+	public GameObject buffContainer;
 	public Image ProfileImage;
+
+	private Button[] BuffBtns;
+	private Dictionary<CardBuffType,int> bufflist;
+
+	void Awake(){
+		bufflist = new Dictionary<CardBuffType, int> ();
+		BuffBtns = buffContainer.GetComponentsInChildren<Button>();
+	}
 
     public void UpdatePlayerView(Player player){
         UpdateProfile("HeadImage/hero1");
         UpdateHp(player.HP, player.HpMax);
         UpdateMp(player.MP);
-        UpdateBuffs(player as Target);
+        UpdateBuffShow();
     }
 
     public override void UpdateProfile(string path){
@@ -32,10 +40,50 @@ public class PlayerView : TargetView {
     public override void UpdateMp(int mp){
         MpText.text = mp.ToString();
     }
+		
+	public override void UpdateBuffShow(){
+		int index = 0;
+		foreach (CardBuffType key in bufflist.Keys) {
+			if (index >= BuffBtns.Length)
+				return;
 
-    //需要记下buff的顺序来
-    public override void UpdateBuffs(Target t){
-
+			//1层不显示
+			string layer = "";
+			if (bufflist [key] != 1) {
+				layer = bufflist [key].ToString ();
+			}
+			UpdateBuffContent (index, key.ToString (), layer);
+		}
+		for (int i = index + 1; i < BuffBtns.Length; i++) {
+			UpdateBuffContent (index, null, null);
+		}
 
     }
+
+	void UpdateBuffContent(int index, string name, string layer){
+		if (name == null) {
+			BuffBtns [index].gameObject.SetActive (false);
+			return;
+		}
+
+		BuffBtns [index].gameObject.SetActive (true);
+		Image i = BuffBtns [index].GetComponent<Image> ();
+		Text t = BuffBtns[index].GetComponentInChildren<Text>();
+		i.sprite = Resources.Load ("HeadImage/" + name, typeof(Sprite)) as Sprite;
+		t.text = layer;
+
+	}
+
+	//包含添加和修改
+	public override void AddBuff(CardBuffType c,int layer){
+		if (bufflist.ContainsKey (c)) {
+			bufflist [c] += layer;		
+		} else {
+			bufflist.Add (c, layer);
+		}
+	}
+
+	public override void RemoveBuff(CardBuffType c){
+		bufflist.Remove (c);
+	}
 }
