@@ -104,6 +104,7 @@ public class BattleManager : MonoBehaviour {
 		return true;
 	}
         
+    //这里需要指定默认的defender
 	public void PlayCard(Player attacker,Target defender,Card card){
 		battleView.PlayCard (card.owner.Info, card.gameObject);
 
@@ -173,11 +174,5 @@ public class BattleManager : MonoBehaviour {
 		} 
 		return _enemy;
 	}
-
-
-    public void AIPlay(Player attacker,Player defender){
-        
-    }
-
 
 }
