@@ -12,6 +12,7 @@ public class BattleManager : MonoBehaviour {
 	private BattleView _view;
 	private PlayerView _playerView;
 	private PlayerView _enemyView;
+    private bool playerTurn = false;
 
 	void Start () {
         battleView = GetComponent<BattleView>();
@@ -58,6 +59,7 @@ public class BattleManager : MonoBehaviour {
         }
 			
 
+        Debug.Log("Init Battle!");
         //初始化战场
         battleView.Init(_player,_enemy);
         _player.Init();
@@ -68,34 +70,47 @@ public class BattleManager : MonoBehaviour {
     }
 
     void BattleStart(){
+        Debug.Log("Battle Started!");
         //判断是否是玩家先手
-		if (_enemy.Name!="先手") {
-			_player.StartRound ();
-			battleView.UpdateEndRound (true);
-		} else {
-			_enemy.StartRound ();
-			battleView.UpdateEndRound (false);
+        playerTurn = (_enemy.Name != "先手");
+        UpdateRoundState();
+
+        if (!playerTurn)
             StartEnemyAI();
-		}
+    }
+
+    void UpdateRoundState(){
+        if (playerTurn)
+        {
+            Debug.Log("我方回合开始");
+            _player.StartRound();
+        }
+        else
+        {
+            Debug.Log("敌方回合开始");
+            _enemy.StartRound();
+        }
+        battleView.UpdateEndRound (playerTurn);
     }
 
 	//下面两段可以合并
 	public void PlayerEndRound(){
 		battleView.ClearPlayedArea (PlayerInfo.Player);
-		_enemy.StartRound ();
-		battleView.UpdateEndRound (false);
+        playerTurn = false;
+        UpdateRoundState();
         StartEnemyAI();
 	}
 
 	public void EnemyEndRound(){
         battleView.EnemyDiscardAll(_enemy);
 		battleView.ClearPlayedArea (PlayerInfo.Enemy);
-		_player.StartRound ();
-		battleView.UpdateEndRound (true);
+        playerTurn = true;
+        UpdateRoundState();
 	}
 
 
     void StartEnemyAI(){
+        Debug.Log("StartEnemyAI!");
         AIPlay ai = new AIPlay(_enemy, _player, this);
         ai.PlayInOrder();
     }

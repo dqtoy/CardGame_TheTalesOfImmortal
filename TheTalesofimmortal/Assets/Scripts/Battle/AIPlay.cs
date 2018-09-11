@@ -16,22 +16,29 @@ public class AIPlay
     }
 
     public void PlayInOrder(){
-		Debug.Log ("Play in order");
-		if (attacker.Info == PlayerInfo.Player)
-		{
-			manager.PlayerEndRound();
-		}
-		else
-		{
-			manager.EnemyEndRound();
-		}
-		return;
+//		if (attacker.Info == PlayerInfo.Player)
+//		{
+//			manager.PlayerEndRound();
+//		}
+//		else
+//		{
+//			manager.EnemyEndRound();
+//		}
+//		return;
+        int count=0;
         if (cd > 0)
             WaitingToPlay();
         else
         {
             while (attacker.Hands.Count > 0)
             {
+                count++;
+                if (count > 20)
+                {
+                    Debug.Log("Bad Tail!");
+                    return;
+                }
+
                 int index = NextCard(attacker.Hands);
                 if (index >= 0)
                 {
@@ -52,6 +59,7 @@ public class AIPlay
                     {
                         manager.EnemyEndRound();
                     }
+                    break;
                 }
             }
         }

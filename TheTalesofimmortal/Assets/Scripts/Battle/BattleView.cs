@@ -14,6 +14,7 @@ public class BattleView : MonoBehaviour {
     public PuppetContainer EnemyPuppets;
     public Text EnemyHand;
 	public Button EndRound;
+    public Text RoundInfo;
 
     //下面这一堆，好像用不着
     private List<GameObject> CardsInPlayerHand = new List<GameObject>();
@@ -148,6 +149,8 @@ public class BattleView : MonoBehaviour {
 
 	public void UpdateEndRound(bool isOn){
 		EndRound.interactable = isOn;
+        RoundInfo.text = isOn ? "你的回合" : "敌方回合";
+
 	}
 
 	void DestroyList(List<GameObject> l){

@@ -43,6 +43,9 @@ public class Player:Target{
 
 
 	public void StartRound(){
+        Debug.Log("My Turn Started!");
+
+        Debug.Log("结算buff效果...");
 		//结算buff效果
         if (HealPerRound > 0)
             Heal(HealPerRound);
@@ -61,7 +64,7 @@ public class Player:Target{
 
     //这一部分直接放到manager里
 	void MyTurn(){
-		TurnOn=true;
+		TurnOn = true;
 	}
         
 

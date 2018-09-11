@@ -9,6 +9,7 @@ public class PlayerView : TargetView {
     public Text HpText;
     public Text HpMaxText;
 	public Text MpText;
+    public Text ApText;//ActionPoint
 	public GameObject buffContainer;
 	public Image ProfileImage;
 
@@ -24,6 +25,7 @@ public class PlayerView : TargetView {
         UpdateProfile("HeadImage/hero1");
         UpdateHp(player.HP, player.HpMax);
         UpdateMp(player.MP);
+        UpdateAp(player.ActPoint);
         UpdateBuffShow();
     }
 
@@ -40,12 +42,17 @@ public class PlayerView : TargetView {
     public override void UpdateMp(int mp){
         MpText.text = mp.ToString();
     }
+
+    public void UpdateAp(int ap){
+        ApText.text = ap.ToString();
+    }
 		
 	public override void UpdateBuffShow(){
+        Debug.Log("UpdateBuffShow-->");
 		int index = 0;
 		foreach (CardBuffType key in bufflist.Keys) {
 			if (index >= BuffBtns.Length)
-				return;
+                break;
 
 			//1层不显示
 			string layer = "";
@@ -53,9 +60,10 @@ public class PlayerView : TargetView {
 				layer = bufflist [key].ToString ();
 			}
 			UpdateBuffContent (index, key.ToString (), layer);
+            index++;
 		}
-		for (int i = index + 1; i < BuffBtns.Length; i++) {
-			UpdateBuffContent (index, null, null);
+		for (int i = index; i < BuffBtns.Length; i++) {
+            UpdateBuffContent (i, null, null);
 		}
 
     }
