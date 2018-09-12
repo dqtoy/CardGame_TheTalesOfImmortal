@@ -95,6 +95,7 @@ public class BattleManager : MonoBehaviour {
 
 	//下面两段可以合并
 	public void PlayerEndRound(){
+        Debug.Log("我方回合结束");
 		battleView.ClearPlayedArea (PlayerInfo.Player);
         playerTurn = false;
         UpdateRoundState();
@@ -102,6 +103,7 @@ public class BattleManager : MonoBehaviour {
 	}
 
 	public void EnemyEndRound(){
+        Debug.Log("敌方回合结束");
         battleView.EnemyDiscardAll(_enemy);
 		battleView.ClearPlayedArea (PlayerInfo.Enemy);
         playerTurn = true;
@@ -123,7 +125,7 @@ public class BattleManager : MonoBehaviour {
 	public void PlayCard(Player attacker,Target defender,Card card){
 		battleView.PlayCard (card.owner.Info, card.gameObject);
 
-		attacker.PlayCard(card.data);
+        attacker.PlayCard(card);
 
 		foreach (CardEffect effect in card.data.Effects) {
 			ExcuteCardEffect (attacker, defender, effect);

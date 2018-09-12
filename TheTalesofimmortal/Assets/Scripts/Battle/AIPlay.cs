@@ -16,6 +16,7 @@ public class AIPlay
     }
 
     public void PlayInOrder(){
+        Debug.Log("开始AI出牌");
 //		if (attacker.Info == PlayerInfo.Player)
 //		{
 //			manager.PlayerEndRound();
@@ -25,7 +26,7 @@ public class AIPlay
 //			manager.EnemyEndRound();
 //		}
 //		return;
-        int count=0;
+        int count = 0;
         if (cd > 0)
             WaitingToPlay();
         else
@@ -36,31 +37,25 @@ public class AIPlay
                 if (count > 20)
                 {
                     Debug.Log("Bad Tail!");
-                    return;
+                    break;
+                    ;
                 }
 
                 int index = NextCard(attacker.Hands);
-                if (index >= 0)
-                {
-                    Target t = GetTarget(attacker.Hands[index]);
-                    manager.PlayCard(attacker, defender, attacker.Hands[index]);
-                    //增加等待时间
-                    cd += waitingTime;
-                }
-                else
-                {
-                    //enemy:如果没有可发的牌，则回合结束，清空所有卡
-                    //player:如果没有可发的牌，则停止等待玩家行动
-                    if (attacker.Info == PlayerInfo.Player)
-                    {
-                        manager.PlayerEndRound();
-                    }
-                    else
-                    {
-                        manager.EnemyEndRound();
-                    }
+                if (index < 0)
                     break;
-                }
+                Target t = GetTarget(attacker.Hands[index]);
+                manager.PlayCard(attacker, t, attacker.Hands[index]);
+                //增加等待时间
+                cd += waitingTime;
+            }
+            if (attacker.Info == PlayerInfo.Player)
+            {
+                manager.PlayerEndRound();
+            }
+            else
+            {
+                manager.EnemyEndRound();
             }
         }
     }
@@ -71,7 +66,6 @@ public class AIPlay
     }
 
     int NextCard(List<Card> list){
-        List<int> PriList = new List<int>();
         int index = 0;
         int pri = 0;
         for (int i = 0; i < list.Count; i++)
@@ -84,7 +78,7 @@ public class AIPlay
                 index = i;
             }
         }
-        if (pri > 0)
+        if (pri >= 0)
             return index;
         else
             return -1;

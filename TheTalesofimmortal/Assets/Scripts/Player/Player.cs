@@ -43,7 +43,6 @@ public class Player:Target{
 
 
 	public void StartRound(){
-        Debug.Log("My Turn Started!");
 
         Debug.Log("结算buff效果...");
 		//结算buff效果
@@ -116,16 +115,18 @@ public class Player:Target{
         return true;
     }
 
-    public void PlayCard(CardData card){
-        if (card.ActionCost > 0)
-            CostActPoint(card.ActionCost);
+    public void PlayCard(Card card){
+        if (card.data.ActionCost > 0)
+            CostActPoint(card.data.ActionCost);
         if (!CostNoMana)
         {
             if (Expensive)
-                DamageMp(card.MpCost * 2);
+                DamageMp(card.data.MpCost * 2);
             else
-                DamageMp(card.MpCost);
+                DamageMp(card.data.MpCost);
         }
+
+        Hands.Remove(card);
     }
 
 	void RemoveHand(int index){
