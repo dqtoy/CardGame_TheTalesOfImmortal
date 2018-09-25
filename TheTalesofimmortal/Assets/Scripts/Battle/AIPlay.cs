@@ -7,8 +7,7 @@ public class AIPlay
     private Player attacker;
     private Player defender;
     private BattleManager manager;
-    private float cd = 0;
-    private float waitingTime = 0.5f;
+
     public AIPlay(Player attacker,Player defender,BattleManager manager){
         this.attacker = attacker;
         this.defender = defender;
@@ -27,43 +26,26 @@ public class AIPlay
 //		}
 //		return;
         int count = 0;
-        if (cd > 0)
-            WaitingToPlay();
-        else
-        {
-            while (attacker.Hands.Count > 0)
-            {
-                count++;
-                if (count > 20)
-                {
-                    Debug.Log("Bad Tail!");
-                    break;
-                    ;
-                }
 
-                int index = NextCard(attacker.Hands);
-                if (index < 0)
-                    break;
-                Target t = GetTarget(attacker.Hands[index]);
-                manager.PlayCard(attacker, t, attacker.Hands[index]);
-                //增加等待时间
-                cd += waitingTime;
-            }
-            if (attacker.Info == PlayerInfo.Player)
+        while (attacker.Hands.Count > 0)
+        {
+            count++;
+            if (count > 20)
             {
-                manager.PlayerEndRound();
+                Debug.Log("Bad Tail!");
+                break;
+                ;
             }
-            else
-            {
-                manager.EnemyEndRound();
-            }
+
+            int index = NextCard(attacker.Hands);
+            if (index < 0)
+                break;
+            Target t = GetTarget(attacker.Hands[index]);
+            manager.PlayCard(attacker, t, attacker.Hands[index]);
+
         }
     }
-
-    IEnumerator WaitingToPlay(){
-        yield return new WaitForSeconds(cd + 0.01f);
-        PlayInOrder();
-    }
+        
 
     int NextCard(List<Card> list){
         int index = 0;

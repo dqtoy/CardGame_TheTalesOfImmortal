@@ -6,7 +6,7 @@ public class LoadConfigs  {
 
 	
     public static CardData ReadCardData(int id){
-        Debug.Log("Reading Card : " + id);
+//        Debug.Log("Reading Card : " + id);
         string[][] strs = ReadTxt.ReadText("Configs/cards");
         CardData c = ExcuteReadCardData(id, strs);
         return c;
@@ -56,7 +56,7 @@ public class LoadConfigs  {
     }
 
     static CardEffect ExcuteReadCardEffect(int id,string[][] strs){
-        Debug.Log("Reading CardEffect : " + id);
+//        Debug.Log("Reading CardEffect : " + id);
         CardEffect ce = new CardEffect();
         for (int i = 0; i < strs.Length; i++)
         {

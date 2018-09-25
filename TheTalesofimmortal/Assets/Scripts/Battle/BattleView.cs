@@ -38,6 +38,7 @@ public class BattleView : MonoBehaviour {
         {
             CardsInPlayerLibrary.Remove(card);
             card.SetActive(true);
+            Debug.Log("PlayerHandContainer.AddCard");
             PlayerHandContainer.AddCard(CardsInPlayerHand, card, new Vector3(-733, -365, 0));
         }else if(info == PlayerInfo.Enemy){
             CardsInEnemyLibrary.Remove(card);
@@ -62,6 +63,7 @@ public class BattleView : MonoBehaviour {
             UpdateEnemyHandShow();
             card.SetActive(true);
         }
+//        Debug.Log("PlayedContainer.AddCard");
         PlayedContainer.AddCard(CardsPlayed, card, Vector3.zero);
     }
 

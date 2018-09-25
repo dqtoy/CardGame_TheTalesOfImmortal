@@ -13,6 +13,7 @@ public class BattleManager : MonoBehaviour {
 	private PlayerView _playerView;
 	private PlayerView _enemyView;
     private bool playerTurn = false;
+    private float roundRestTime = 2f;
 
 	void Start () {
         battleView = GetComponent<BattleView>();
@@ -98,23 +99,40 @@ public class BattleManager : MonoBehaviour {
         Debug.Log("我方回合结束");
 		battleView.ClearPlayedArea (PlayerInfo.Player);
         playerTurn = false;
+        StartCoroutine(EnmeyWaitToStart());
+	}
+
+    IEnumerator EnmeyWaitToStart(){
+        yield return new WaitForSeconds(roundRestTime);
         UpdateRoundState();
         StartEnemyAI();
-	}
+    }
 
 	public void EnemyEndRound(){
         Debug.Log("敌方回合结束");
         battleView.EnemyDiscardAll(_enemy);
 		battleView.ClearPlayedArea (PlayerInfo.Enemy);
+        StartCoroutine(HeroWaitToStart());
+	}
+
+    IEnumerator HeroWaitToStart(){
+        yield return new WaitForSeconds(roundRestTime);
         playerTurn = true;
         UpdateRoundState();
-	}
+    }
 
 
     void StartEnemyAI(){
         Debug.Log("StartEnemyAI!");
         AIPlay ai = new AIPlay(_enemy, _player, this);
         ai.PlayInOrder();
+
+        StartCoroutine(WaitToEndRound());
+    }
+
+    IEnumerator WaitToEndRound(){
+        yield return new WaitForSeconds(roundRestTime);
+        EnemyEndRound();
     }
 
 	public bool CanPlay(Player dealer, CardData data){
