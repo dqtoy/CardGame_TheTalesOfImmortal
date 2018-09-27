@@ -321,6 +321,7 @@ public class CardEffectHandler {
             incAtk = int.Parse(s[2]);
         }
         int dmg = basicAtk + count * incAtk;
+        Debug.Log("外功计数攻击，计数：" + count + " ,dmg = " + dmg);
         return PhysicalDamage(attacker, dmg.ToString(), target);
     }
 

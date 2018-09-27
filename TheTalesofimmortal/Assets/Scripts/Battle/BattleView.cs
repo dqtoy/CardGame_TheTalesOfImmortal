@@ -38,11 +38,12 @@ public class BattleView : MonoBehaviour {
         {
             CardsInPlayerLibrary.Remove(card);
             card.SetActive(true);
-            Debug.Log("PlayerHandContainer.AddCard");
+//            Debug.Log("PlayerHandContainer.AddCard");
             PlayerHandContainer.AddCard(CardsInPlayerHand, card, new Vector3(-733, -365, 0));
         }else if(info == PlayerInfo.Enemy){
             CardsInEnemyLibrary.Remove(card);
             CardsInEnemyHand.Add(card);
+            card.name = "enemy_hand";
             UpdateEnemyHandShow();
         }    
     }
@@ -120,25 +121,25 @@ public class BattleView : MonoBehaviour {
     }
 
     /// <summary>
-    /// 洗牌
+    /// 重复代码
     /// </summary>
     /// <param name="info">Info.</param>
-    public void Shuffle(PlayerInfo info){
-        if (info == PlayerInfo.Player)
-        {
-            Shuffle(CardsInPlayerTomb, CardsInPlayerLibrary);
-        }
-        else if (info == PlayerInfo.Enemy)
-        {
-            Shuffle(CardsInEnemyTomb, CardsInEnemyLibrary);
-        }
-    }
-
-    void Shuffle(List<GameObject> org,List<GameObject> target){
-        for (int i = 0; i < org.Count; i++)
-            target.Add(org[i]);
-        org.Clear();
-    }
+//    public void Shuffle(PlayerInfo info){
+//        if (info == PlayerInfo.Player)
+//        {
+//            Shuffle(CardsInPlayerTomb, CardsInPlayerLibrary);
+//        }
+//        else if (info == PlayerInfo.Enemy)
+//        {
+//            Shuffle(CardsInEnemyTomb, CardsInEnemyLibrary);
+//        }
+//    }
+//
+//    void Shuffle(List<GameObject> org,List<GameObject> target){
+//        for (int i = 0; i < org.Count; i++)
+//            target.Add(org[i]);
+//        org.Clear();
+//    }
 
     void UpdateEnemyHandShow(){
         EnemyHand.text = CardsInEnemyHand.Count.ToString();

@@ -33,9 +33,15 @@ public class Player:Target{
     }
 
 	public void EndRound(){
-		//清除手牌中的无效卡
+		//清除手牌
+        if(Info == PlayerInfo.Player){
+            //清除无效牌（眩晕等）
+        }else{
+            BattleField.EnemyDiscardAll(this);
+        }
 
 		//抽卡
+        Debug.Log("endround...handcount = "+Hands.Count);
 		if (Hands.Count < RoundCard) {
 			DrawCards (RoundCard - Hands.Count);
 		}
@@ -44,7 +50,6 @@ public class Player:Target{
 
 	public void StartRound(){
 
-        Debug.Log("结算buff效果...");
 		//结算buff效果
         if (HealPerRound > 0)
             Heal(HealPerRound);
@@ -57,17 +62,11 @@ public class Player:Target{
         ClearRoundBuff();
 
 		//打开发牌状态
-		MyTurn();
+        TurnOn = true;
 	}
-        
-
-    //这一部分直接放到manager里
-	void MyTurn(){
-		TurnOn = true;
-	}
-        
 
 	public void DrawCards(int count){
+        Debug.Log(Info + " 抽卡 " + count + " 张，牌库数量：" + Library.Count+"，坟场数量："+Graveyard.Count);
 		for (int i = 0; i < count; i++) {
 			if (Library.Count <= 0) {
 				if (Graveyard.Count > 0)
@@ -127,6 +126,9 @@ public class Player:Target{
         }
 
         Hands.Remove(card);
+
+        //这里只是逻辑上放到了坟场，但展示上需要另行处理或者不处理
+        Graveyard.Add(card);
     }
 
 	void RemoveHand(int index){
@@ -136,6 +138,7 @@ public class Player:Target{
 	}
 
 	void Shuffle(){
+        Debug.Log(Info + " Shuffling");
 		for (int i = 0; i < Graveyard.Count; i++) {
 			Library.Add (Graveyard [i]);
 		}

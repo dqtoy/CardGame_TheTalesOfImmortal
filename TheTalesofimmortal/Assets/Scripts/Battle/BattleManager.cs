@@ -80,10 +80,13 @@ public class BattleManager : MonoBehaviour {
             StartEnemyAI();
     }
 
+    /// <summary>
+    /// 用于显示当前回合数、谁的回合
+    /// </summary>
     void UpdateRoundState(){
         if (playerTurn)
         {
-            Debug.Log("我方回合开始");
+            Debug.Log("玩家回合开始");
             _player.StartRound();
         }
         else
@@ -97,8 +100,17 @@ public class BattleManager : MonoBehaviour {
 	//下面两段可以合并
 	public void PlayerEndRound(){
         Debug.Log("我方回合结束");
+
+        //清除发牌区
 		battleView.ClearPlayedArea (PlayerInfo.Player);
+
+        //抽取下回合的卡
+        _player.EndRound();
+
+        //关闭玩家可出牌的状态
         playerTurn = false;
+
+        //准备进入敌方回合
         StartCoroutine(EnmeyWaitToStart());
 	}
 
@@ -110,8 +122,14 @@ public class BattleManager : MonoBehaviour {
 
 	public void EnemyEndRound(){
         Debug.Log("敌方回合结束");
-        battleView.EnemyDiscardAll(_enemy);
-		battleView.ClearPlayedArea (PlayerInfo.Enemy);
+
+        //清除发牌区
+        battleView.ClearPlayedArea (PlayerInfo.Enemy);
+
+        //抽取下回合的卡
+        _enemy.EndRound();
+
+        //准备进入玩家回合
         StartCoroutine(HeroWaitToStart());
 	}
 
@@ -131,7 +149,7 @@ public class BattleManager : MonoBehaviour {
     }
 
     IEnumerator WaitToEndRound(){
-        yield return new WaitForSeconds(roundRestTime);
+        yield return new WaitForSeconds(5f);
         EnemyEndRound();
     }
 
@@ -144,8 +162,10 @@ public class BattleManager : MonoBehaviour {
 		battleView.PlayCard (card.owner.Info, card.gameObject);
 
         attacker.PlayCard(card);
+        Debug.Log("出牌：" + card.data.Name + ",\n效果：" + card.data.Description);
 
 		foreach (CardEffect effect in card.data.Effects) {
+            Debug.Log("effectId: " + effect.Id + ",Params: " + effect.Param);
 			ExcuteCardEffect (attacker, defender, effect);
             //CheckIsPlayerDead
             //CheckIsTargetDead
